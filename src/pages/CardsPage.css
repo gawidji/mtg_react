@@ -1,0 +1,27 @@
+.card-section {
+    display: grid;
+    margin: 30px;
+    grid-template-columns: repeat(10, 1fr); /* 5 images par ligne */
+    grid-template-rows: repeat(6, 1fr);    /* 3 lignes d'images */
+    gap: 10px;                            /* Espacement entre les images */
+    width: 100vw;                         /* Utilisation de toute la largeur de l'écran */
+    height: 100vh;                        /* Utilisation de toute la hauteur de l'écran */
+  }
+
+  .card-name {
+    align-items: center; 
+  }
+  
+  
+  .card-img {
+    width: 100%; /* L'image prend toute la largeur de la cellule */
+    height: auto; /* Hauteur automatique pour conserver les proportions */
+  }
+
+.container-mt-5 {
+  grid-template-columns: none;
+}
+
+.hv-card {
+  width : auto;
+}

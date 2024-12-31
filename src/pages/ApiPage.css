@@ -1,0 +1,18 @@
+.api {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    width: 20%;
+    margin-left: 40%;
+    margin-top: 10%;
+}
+
+.buttonApi {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+body {background-color: yellowgreen;}

@@ -1,7 +1,6 @@
 import React from 'react'
 import Header from '../components/header'
 import NavbarUser from '../navigation/navbarUser'
-import Footer from '../components/footer'
 import { Outlet } from "react-router-dom"
 
 const LayoutUser = function ()
@@ -12,7 +11,6 @@ const LayoutUser = function ()
         <main>
         <Outlet/>
         </main>
-        <Footer/>
         </>
     )
 }

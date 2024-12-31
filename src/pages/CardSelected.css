@@ -1,0 +1,43 @@
+
+p{
+    color: white;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+    margin-left: 30%;
+}
+
+.card-text, .card-name{
+    color: black;
+}
+
+.card-format, .card-rarity {
+    display: inline-block;
+    color: white;
+    padding: 4px;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+.rarity-line {
+    display: flex;
+    flex-direction: row;
+}
+.rarity {
+    margin-top: 4px;
+}
+
+.button-navig {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+button:hover {
+    outline: none;
+    background-color: #5D3B8C;
+     color : white;
+}

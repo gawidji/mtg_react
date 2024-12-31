@@ -1,0 +1,8 @@
+.nav {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    margin-right: 25px;
+}
+
+p {color: white;}

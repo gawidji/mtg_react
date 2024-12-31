@@ -1,5 +1,4 @@
-import "./header.css"
-import "../assets/LogoMTG.png"
+import "./css/footer.css"
 
 const Footer = function () {
     return (
