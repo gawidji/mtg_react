@@ -3,32 +3,52 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Section from '../components/section';
 import SearchBar from '../components/searchBar';
+import CheckboxColor from '../components/checkboxColor';
 import Card from '../model/Card';
 import axios from "axios";
 import "./CardsPage.css";
 
 const CardsPage = () => {
     const [cards, setCards] = React.useState([])
-    // const [modal, setModal] = React.useState(false)
     const [detailsCard, setDetailsCard] = React.useState(null)
     const navigate = useNavigate();
 
-    
+    // Filtre recherche
+    const [filterName, setFilterName] = React.useState("")
+
+/*
+    const [name, setName] = React.useState("")
+    const [manaCostMin, setManaCostMin] = React.useState(null)
+    const [manaCostMax, setManaCostMax] = React.useState(null)
+    const [valueMin, setValueMin] = React.useState(null)
+    const [valueMax, setValueMax] = React.useState(null)
+    const [formats, setFormats] = React.useState([])
+    const [colors, setColors] = React.useState([])
+    const [types, setTypes] = React.useState([])
+    const [rarities, setRarities] = React.useState([])
+    const [editions, setEditions] = React.useState([])
+*/
+
     
         // L'appel asynchrone doit obligatoirement etre fait à l'intérieur de useEffect
         useEffect(() => {
         const getCards = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/f_all/testCards');
+
+                // Contient les RequestParams de la requete
+                const params = {
+                    name: filterName,
+                   // colors: selectedColors
+                };
+                
+                const response = await axios.get('http://localhost:8080/f_all/getCards', {params} );
                 
                 const listCards = response.data.map(
                         card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
                                         card.colors, card.type, card.rarity, card.edition, card.decks 
                 ) )                
                     
-                console.log("cartes :  " + listCards.map(card => (card.name))) 
-
-                    setCards(listCards)
+                setCards(listCards)
             }   
             catch (error) {
                 console.log(error);
@@ -37,7 +57,7 @@ const CardsPage = () => {
     
         }
         getCards();
-        }, []);
+        }, [filterName]);
 
 
         const chooseCard = (id) => {
@@ -55,7 +75,9 @@ const CardsPage = () => {
         return (
             <Section className="section">
 
-            <SearchBar className='search-bar'/>
+            <SearchBar className='search-bar'  onChange={(e) => setFilterName(e.target.value)} required/>
+            <CheckboxColor className='checkbox-color'/>
+            
 
             <div className='card-section'>
 
