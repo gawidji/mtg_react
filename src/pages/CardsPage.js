@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Section from '../components/section';
 import SearchBar from '../components/searchBar';
-import CheckboxColor from '../components/checkboxColor';
+import CheckboxColorV2 from '../components/checkboxColorV2';
 import Card from '../model/Card';
 import axios from "axios";
 import "./CardsPage.css";
@@ -15,19 +15,7 @@ const CardsPage = () => {
 
     // Filtre recherche
     const [filterName, setFilterName] = React.useState("")
-
-/*
-    const [name, setName] = React.useState("")
-    const [manaCostMin, setManaCostMin] = React.useState(null)
-    const [manaCostMax, setManaCostMax] = React.useState(null)
-    const [valueMin, setValueMin] = React.useState(null)
-    const [valueMax, setValueMax] = React.useState(null)
-    const [formats, setFormats] = React.useState([])
-    const [colors, setColors] = React.useState([])
-    const [types, setTypes] = React.useState([])
-    const [rarities, setRarities] = React.useState([])
-    const [editions, setEditions] = React.useState([])
-*/
+    const [filterColors, setFilterColors] = React.useState([])
 
     
         // L'appel asynchrone doit obligatoirement etre fait à l'intérieur de useEffect
@@ -38,7 +26,7 @@ const CardsPage = () => {
                 // Contient les RequestParams de la requete
                 const params = {
                     name: filterName,
-                   // colors: selectedColors
+                    colors: filterColors
                 };
                 
                 const response = await axios.get('http://localhost:8080/f_all/getCards', {params} );
@@ -57,7 +45,7 @@ const CardsPage = () => {
     
         }
         getCards();
-        }, [filterName]);
+        }, [filterName, filterColors]);
 
 
         const chooseCard = (id) => {
@@ -66,24 +54,47 @@ const CardsPage = () => {
         
         
 
-          const hoveredCard = (id, name, type, text) => {
-            setDetailsCard({ id, name, type, text });
+        const hoveredCard = (id, name, type, text) => {
+         setDetailsCard({ id, name, type, text });
 
           }
+        
+        // Filtre colors
+
+        const selectColors = (newColor) => {
+            setFilterColors(prevColors => {
+              const colorsArray = Array.isArray(prevColors) ? prevColors : (prevColors || '').split(',').filter(color => color.trim() !== '');
+              if (colorsArray.includes(newColor)) {
+                return colorsArray.filter(color => color !== newColor).join(',');
+              } else {
+                return [...colorsArray, newColor].join(',');                 
+              }
+            });
+          };
+        
+          const removeColors = () => {
+            setFilterColors([])
+          }    
+          
+          
+          
+    
  
 
-        return (
+        return ( 
             <Section className="section">
 
-            <SearchBar className='search-bar'  onChange={(e) => setFilterName(e.target.value)} required/>
-            <CheckboxColor className='checkbox-color'/>
+            <SearchBar  onChange={(event) => (setFilterName(event.target.value))}/>
+            
+            <CheckboxColorV2 onClick={(event) => selectColors(event.target.value)} filterColors={filterColors}/>
+            <button onClick={removeColors}>Remove colors filter</button>
             
 
             <div className='card-section'>
 
               {cards.map(card => ( 
                   <div className="card-details" key={card.id}>
-                      <img className="card-img" src={card.image} alt="Card image" onClick={() => chooseCard(card.id)} 
+                      <img className="card-img" src={card.image} alt="Card-image" onClick={() => chooseCard(card.id)} 
                       onMouseEnter={() => hoveredCard(card.id, card.name, card.type, card.text) } onMouseOut={() => hoveredCard() } />
                       <strong className="card-name"> {card.name} </strong>
 

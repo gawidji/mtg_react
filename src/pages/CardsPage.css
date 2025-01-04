@@ -18,10 +18,16 @@
     height: auto; /* Hauteur automatique pour conserver les proportions */
   }
 
+
 .container-mt-5 {
   grid-template-columns: none;
 }
 
 .hv-card {
   width : auto;
+}
+
+.filterColors{
+  display: flex;
+  flex-direction: row;
 }

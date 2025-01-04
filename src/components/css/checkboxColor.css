@@ -6,7 +6,7 @@
 
 
 li {
-    color: white;
+    color: black;
     display: flex;  
     align-items: center;
 }
@@ -20,3 +20,4 @@ input {
     width: auto;
     margin-top: 14px;
 }
+
