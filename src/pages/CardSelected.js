@@ -3,12 +3,18 @@ import { useEffect } from 'react';
 import { useParams,  useNavigate} from 'react-router-dom';
 import Section from '../components/section';
 import axios from "axios";
-import "./CardSelected.css";
+import "./css/CardSelected.css";
+import white from "../assets/white-mtg.png"
+import blue from "../assets/blue-mtg.png"
+import green from "../assets/green-mtg.png"
+import red from "../assets/red-mtg.png"
+import black from "../assets/black-mtg.png"
  
 
 const CardSelected = () => {
     const [card, setCard] = React.useState([])
     const [format, setFormat] = React.useState([])
+    const [color, setColor] = React.useState([])
     const navigate = useNavigate();
 
     
@@ -26,7 +32,7 @@ const CardSelected = () => {
                     setCard(response)
                    
                    setFormat(response.formats)
-                   console.log(format)
+                   setColor(response.colors)
 
 
             }   
@@ -64,6 +70,28 @@ const CardSelected = () => {
            
         };
 
+        const getColor = (value ) => {
+            if(value === "BLANC") {
+                return white
+            }
+            if(value === "BLEU") {
+                return blue
+            }
+            if(value === "VERT") {
+                return green
+            }
+            if(value === "ROUGE") {
+                return red
+            }
+            if(value === "NOIR") {
+                return black
+            }
+            if(value === "INCOLORE") {
+                return null
+            }
+           
+        };
+
 
         return (
             <Section className="section">
@@ -87,7 +115,14 @@ const CardSelected = () => {
                                 ))}
                                 </div>
                             )}
-         
+                            <h6 className='color'> Couleurs : </h6> 
+                            {color && color.length > 0 && (
+                                <div className='mappingColor'>
+                                  {color.map((color)  => (
+                                <img src={getColor(color)} className="color-img-select" alt={color}/>                                
+                             ))}
+                                </div>
+                            )}
                         </div>
                     </div>  
                 <div className='button-navig'>

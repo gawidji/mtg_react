@@ -1,7 +1,7 @@
 import BanniereMTG from "../assets/banniere.jpg"
 import React from 'react';
 import Section from '../components/section';
-import './LogPage.css'
+import './css/LogPage.css'
 
 
 const LogPage = function () {

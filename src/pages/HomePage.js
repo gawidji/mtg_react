@@ -1,4 +1,4 @@
-import "./HomePage.css"
+import "./css/HomePage.css"
 import React from 'react';
 import Section from "../components/section"; 
 import BanniereMTG from "../assets/banniere.jpg"

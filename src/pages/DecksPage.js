@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Section from '../components/section';
 import Deck from '../model/Deck';
 import axios from "axios";
-import "./CardsPage.css";
+import "./css/CardsPage.css";
 
 
 const DecksPage = () => {

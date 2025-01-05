@@ -3,10 +3,12 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Section from '../components/section';
 import SearchBar from '../components/searchBar';
-import CheckboxColorV2 from '../components/checkboxColorV2';
+import CheckboxColor from '../components/checkboxColor';
+import CheckboxFormat from '../components/checkboxFormat';
+import CheckboxRarity from '../components/checkboxRarity';
 import Card from '../model/Card';
 import axios from "axios";
-import "./CardsPage.css";
+import "./css/CardsPage.css";
 
 const CardsPage = () => {
     const [cards, setCards] = React.useState([])
@@ -16,17 +18,22 @@ const CardsPage = () => {
     // Filtre recherche
     const [filterName, setFilterName] = React.useState("")
     const [filterColors, setFilterColors] = React.useState([])
+    const [filterFormats, setFilterFormats] = React.useState([])
+    const [filterRarities, setFilterRarities] = React.useState([])
+
+
 
     
         // L'appel asynchrone doit obligatoirement etre fait à l'intérieur de useEffect
-        useEffect(() => {
         const getCards = async () => {
             try {
 
                 // Contient les RequestParams de la requete
                 const params = {
                     name: filterName,
-                    colors: filterColors
+                    colors: filterColors,
+                    formats: filterFormats,
+                    rarities : filterRarities
                 };
                 
                 const response = await axios.get('http://localhost:8080/f_all/getCards', {params} );
@@ -44,8 +51,9 @@ const CardsPage = () => {
 
     
         }
-        getCards();
-        }, [filterName, filterColors]);
+        React.useEffect(() => {
+          getCards();
+      }, [filterName, filterColors, filterFormats, filterRarities]);
 
 
         const chooseCard = (id) => {
@@ -60,7 +68,6 @@ const CardsPage = () => {
           }
         
         // Filtre colors
-
         const selectColors = (newColor) => {
             setFilterColors(prevColors => {
               const colorsArray = Array.isArray(prevColors) ? prevColors : (prevColors || '').split(',').filter(color => color.trim() !== '');
@@ -74,10 +81,39 @@ const CardsPage = () => {
         
           const removeColors = () => {
             setFilterColors([])
-          }    
+          }   
           
-          
-          
+          // Filtre formats
+          const selectFormats = (newFormat) => {
+            setFilterFormats(prevFormats => {
+              const formatsArray = Array.isArray(prevFormats) ? prevFormats : (prevFormats || '').split(',').filter(format => format.trim() !== '');
+              if (formatsArray.includes(newFormat)) {
+                return formatsArray.filter(format => format !== newFormat).join(',');
+              } else {
+                return [...formatsArray, newFormat].join(',');                 
+              }
+            });
+          };
+          const removeFormats = () => {
+            setFilterFormats([])
+          } 
+
+
+          // Filtre raretés
+          const selectRarities = (newRarity) => {
+            setFilterRarities(prevRarities => {
+              const raritiesArray = Array.isArray(prevRarities) ? prevRarities : (prevRarities || '').split(',').filter(rarity => rarity.trim() !== '');
+              if (raritiesArray.includes(newRarity)) {
+                return raritiesArray.filter(rarity => rarity !== newRarity).join(',');
+              } else {
+                return [...raritiesArray, newRarity].join(',');                 
+              }
+            });
+          };
+          const removeRarities = () => {
+            setFilterRarities([])
+          } 
+                 
     
  
 
@@ -86,8 +122,14 @@ const CardsPage = () => {
 
             <SearchBar  onChange={(event) => (setFilterName(event.target.value))}/>
             
-            <CheckboxColorV2 onClick={(event) => selectColors(event.target.value)} filterColors={filterColors}/>
-            <button onClick={removeColors}>Remove colors filter</button>
+            <div className="filters">
+            <CheckboxColor onClick={(event) => selectColors(event.target.value)} filterColors={filterColors}
+              onPush={removeColors} text={"Remove colors filter"}/>
+            <CheckboxFormat onClick={(event) => selectFormats(event.target.value)} filterFormats={filterFormats}
+              onPush={removeFormats} text={"Remove formats filter"}/>
+            <CheckboxRarity onClick={(event) => selectRarities(event.target.value)} filterRarities={filterRarities}
+              onPush={removeRarities} text={"Remove rarity filter"}/>
+            </div>
             
 
             <div className='card-section'>

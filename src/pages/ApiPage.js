@@ -1,6 +1,6 @@
 import Section from "../components/section"; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./ApiPage.css"
+import "./css/ApiPage.css"
 import React, { useEffect, useState } from 'react';
 // useEffect et useState sont nécessaires pour les appels asynchrones en React
 // useEffect se déclenche quand les données de l'api arrivent

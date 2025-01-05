@@ -1,4 +1,7 @@
 import "./css/checkboxColor.css"
+import React from 'react';
+import { useEffect } from 'react';
+import axios from "axios";
 import white from "../assets/white-mtg.png"
 import blue from "../assets/blue-mtg.png"
 import green from "../assets/green-mtg.png"
@@ -7,26 +10,64 @@ import black from "../assets/black-mtg.png"
 
 
 
-
-
-
-
 const CheckboxColor = function (props) {
+
+    const [colors, setColors] = React.useState([])
+
+    useEffect(() => {
+        const getColors = async () => {
+            try {
+                const request = await axios.get(`http://localhost:8080/f_all/getColors`);
+
+                const response = request.data
+    
+                setColors(response)
+
+            }   
+            catch (error) {
+                console.log(error);
+            }
+        }
+        getColors();
+        }, [colors]);
+
+        const getColorPics = (value) => {
+            if(value === "BLANC") {
+                return white
+            }
+            if(value === "BLEU") {
+                return blue
+            }
+            if(value === "VERT") {
+                return green
+            }
+            if(value === "ROUGE") {
+                return red
+            }
+            if(value === "NOIR") {
+                return black
+            }
+            if(value === "INCOLORE") {
+                return null
+            }
+           
+        };
+
     return (
     <div className="checkbox-colors">
-       <li><input type="checkbox" name="color" value="BLANC" onClick={props.onClick} checked={props.filterColors} /><img src={white} className="color-img" alt="white-logo" 
-       /></li>
-       <li><input type="checkbox" name="color" value="BLEU" onClick={props.onClick} checked={props.filterColors} /><img src={blue} className="color-img" alt="blue-logo" 
-       /></li>
-       <li><input type="checkbox" name="color" value="VERT" onClick={props.onClick} checked={props.filterColors} /><img src={green} className="color-img" alt="green-logo" 
-       /></li>
-       <li><input type="checkbox" name="color" value="ROUGE" onClick={props.onClick} checked={props.filterColors}/><img src={red} className="color-img" alt="red-logo" 
-       /></li>
-       <li><input type="checkbox" name="color" value="NOIR" onClick={props.onClick} checked={props.filterColors} /><img src={black} className="color-img" alt="black-logo"
-        /></li>
+     {colors.map(color => (
+       <li><input type="checkbox" name={"nom"+ color} value={color} onClick={props.onClick} checked={props.filterColors.includes(color)}/>
+       <img src={getColorPics(color)} className="color-img" alt={color}/></li>
+    ))}
+    <button onClick={props.onPush}>{props.text}</button>
     </div>
 
     )
 }
+/*
+<li><input type="checkbox" name={"fullColors"} onClick={props.Reset} checked={props.filterColors.length === 0}/> 
+        <p>Toutes les couleurs</p>
+        </li>
+*/
 
 export default CheckboxColor

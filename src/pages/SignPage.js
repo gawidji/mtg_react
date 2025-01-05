@@ -1,7 +1,7 @@
 import BanniereMTG from "../assets/banniere.jpg"
 import React from 'react';
 import Section from '../components/section';
-import "./SignPage.css"
+import "./css/SignPage.css"
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 

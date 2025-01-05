@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Section from '../components/section';
 import User from '../model/User';
 import axios from "axios";
-import "./CardsPage.css";
+import "./css/CardsPage.css";
 
 const UsersPage = () => {
     const [users, setUsers] = React.useState([])
