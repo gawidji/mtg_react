@@ -8,6 +8,7 @@ import CardsPage from './pages/CardsPage';
 import CardSelected from './pages/CardSelected';
 import DecksPage from './pages/DecksPage';
 import UsersPage from './pages/UserPage';
+import TestPage from './pages/testPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 // On réalise une function qui fonctione avec le Router de React
@@ -29,7 +30,9 @@ const Router = createBrowserRouter([
     {path: "/decks",
       element: <DecksPage/>},
     {path: "/users",
-       element: <UsersPage/>}    
+       element: <UsersPage/>},
+    {path: "/test",
+      element: <TestPage/>}   
     ]
   },
 

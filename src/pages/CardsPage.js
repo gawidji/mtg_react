@@ -3,9 +3,14 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Section from '../components/section';
 import SearchBar from '../components/searchBar';
+import InputValue from '../components/inputValue';
+import InputManaCoast from '../components/inputManaCoast';
 import CheckboxColor from '../components/checkboxColor';
 import CheckboxFormat from '../components/checkboxFormat';
 import CheckboxRarity from '../components/checkboxRarity';
+import CheckboxEdition from '../components/checkboxEdition';
+import CheckboxType from '../components/checkboxType';
+import CheckboxLegendary from '../components/checkboxLegendary';
 import Card from '../model/Card';
 import axios from "axios";
 import "./css/CardsPage.css";
@@ -17,9 +22,19 @@ const CardsPage = () => {
 
     // Filtre recherche
     const [filterName, setFilterName] = React.useState("")
+    const [inputValueMin, setInputValueMin] = React.useState("")
+    const [inputValueMax, setInputValueMax] = React.useState("")
+    const [inputManaCostMin, setInputManaCostMin] = React.useState("")
+    const [inputManaCostMax, setInputManaCostMax] = React.useState("")
     const [filterColors, setFilterColors] = React.useState([])
     const [filterFormats, setFilterFormats] = React.useState([])
     const [filterRarities, setFilterRarities] = React.useState([])
+    const [filterEditions, setFilterEditions] = React.useState([])
+    const [filterTypes, setFilterTypes] = React.useState([])
+    const [filterLegendary, setFilterLegendary] = React.useState(null)
+
+
+
 
 
 
@@ -33,7 +48,14 @@ const CardsPage = () => {
                     name: filterName,
                     colors: filterColors,
                     formats: filterFormats,
-                    rarities : filterRarities
+                    rarities : filterRarities,
+                    valueMin : inputValueMin,
+                    valueMax : inputValueMax,
+                    manaCostMin : inputManaCostMin,
+                    manaCostMax : inputManaCostMax,
+                    editions : filterEditions,
+                    types : filterTypes,
+                    legendary : filterLegendary
                 };
                 
                 const response = await axios.get('http://localhost:8080/f_all/getCards', {params} );
@@ -53,7 +75,8 @@ const CardsPage = () => {
         }
         React.useEffect(() => {
           getCards();
-      }, [filterName, filterColors, filterFormats, filterRarities]);
+      }, [filterName, inputValueMin, inputValueMax, inputManaCostMin, inputManaCostMax,
+         filterColors, filterFormats, filterRarities, filterEditions, filterTypes, filterLegendary]);
 
 
         const chooseCard = (id) => {
@@ -113,6 +136,46 @@ const CardsPage = () => {
           const removeRarities = () => {
             setFilterRarities([])
           } 
+
+        // Filtre editions
+        const selectEditions = (newEdition) => {
+          setFilterEditions(prevEditions => {
+            const editionsArray = Array.isArray(prevEditions) ? prevEditions : (prevEditions || '').split(',').filter(edition => edition.trim() !== '');
+            if (editionsArray.includes(newEdition)) {
+              return editionsArray.filter(edition => edition !== newEdition).join(',');
+            } else {
+              return [...editionsArray, newEdition].join(',');                 
+            }
+          });
+        };
+        const removeEditions = () => {
+          setFilterEditions([])
+        } 
+
+         // Filtre types
+         const selectTypes = (newType) => {
+            setFilterTypes(prevTypes => {
+            const typesArray = Array.isArray(prevTypes) ? prevTypes : (prevTypes || '').split(',').filter(type => type.trim() !== '');
+            if (typesArray.includes(newType)) {
+              return typesArray.filter(type => type !== newType).join(',');
+            } else {
+              return [...typesArray, newType].join(',');                 
+            }
+          });
+        };
+        const removeTypes = () => {
+          setFilterTypes([])
+        } 
+
+        // Filtre légendaire
+        const checkoutLegendary = () => {
+          if(filterLegendary === null && filterTypes.includes("CREATURE")) {
+            setFilterLegendary("legendary")
+          }
+          else {
+            setFilterLegendary(null)
+          }
+        }
                  
     
  
@@ -121,6 +184,13 @@ const CardsPage = () => {
             <Section className="section">
 
             <SearchBar  onChange={(event) => (setFilterName(event.target.value))}/>
+            <p className="titleValue">Valeur (€)</p>
+            <InputValue onChange={(event) => (setInputValueMin(event.target.value))} placeholder={"min"}/>
+            <InputValue onChange={(event) => (setInputValueMax(event.target.value))} placeholder={"max"}/>
+            <p className="titleManaCost">Cout en mana</p>
+            <InputManaCoast onChange={(event) => (setInputManaCostMin(event.target.value))} placeholder={"min"}/>
+            <InputManaCoast onChange={(event) => (setInputManaCostMax(event.target.value))} placeholder={"max"}/>
+            
             
             <div className="filters">
             <CheckboxColor onClick={(event) => selectColors(event.target.value)} filterColors={filterColors}
@@ -129,8 +199,14 @@ const CardsPage = () => {
               onPush={removeFormats} text={"Remove formats filter"}/>
             <CheckboxRarity onClick={(event) => selectRarities(event.target.value)} filterRarities={filterRarities}
               onPush={removeRarities} text={"Remove rarity filter"}/>
-            </div>
-            
+            <CheckboxEdition onClick={(event) => selectEditions(event.target.value)} filterEditions={filterEditions}
+              onPush={removeEditions} text={"Remove edition filter"}/>
+            <CheckboxType onClick={(event) => selectTypes(event.target.value)} filterTypes={filterTypes}
+              onPush={removeTypes} text={"Remove type filter"}/>
+            {filterTypes === "CREATURE" &&(
+              <CheckboxLegendary onClick={(event) =>checkoutLegendary()} filterLegendary={filterLegendary}/>
+            )}
+            </div>             
 
             <div className='card-section'>
 

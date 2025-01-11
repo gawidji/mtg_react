@@ -10,6 +10,11 @@ p{
     margin-left: 30%;
 }
 
+.card-img{
+    height: 50%;
+    width: auto;
+}
+
 .card-text, .card-name{
     color: black;
 }

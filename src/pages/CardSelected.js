@@ -55,17 +55,17 @@ const CardSelected = () => {
         
         
         const getBackgroundColor = (rarity ) => {
-            if(rarity == "MYTHIQUE") {
+            if(rarity === "MYTHIQUE") {
                 return 'rgba(206,67,35,255)'
             }
-            if(rarity == "RARE") {
+            if(rarity === "RARE") {
                 return 'rgba(159,134,53,255)'
             }
-            if(rarity == "UNCOMMUNE") {
+            if(rarity === "UNCO") {
                 return 'rgba(167,182,202,255)'
             }
-            if(rarity == "COMMUNE") {
-                return 'rgba(159,134,53,255)'
+            if(rarity === "COMMUNE") {
+                return 'rgba(0,0,0,255)'
             }
            
         };
@@ -97,7 +97,7 @@ const CardSelected = () => {
             <Section className="section">
 
                     <div className="card" style={{width : `50%`}}>
-                    <img className="card-img" src={card.image} alt="Card image"/>
+                    <img className="card-img" src={card.image} alt="Card mtg"/>
                         <div className="card-body" >
                             <h2 className="card-name"> {card.name}</h2>
                             <h6 className='text'> Texte : </h6> 
