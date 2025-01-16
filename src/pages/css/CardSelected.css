@@ -13,6 +13,8 @@ p{
 .card-img{
     height: 50%;
     width: auto;
+    display: flex;
+    justify-content: center;
 }
 
 .card-text, .card-name{
@@ -48,6 +50,12 @@ p{
     height: 40px;
     width: auto;
     margin-top: 5px;
+}
+
+.likeButton-container {
+    display: flex;
+    justify-content: center;
+
 }
 
 .button-navig {

@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useParams,  useNavigate} from 'react-router-dom';
 import Section from '../components/section';
+import LikeButton from '../components/likeButton';
 import axios from "axios";
 import "./css/CardSelected.css";
 import white from "../assets/white-mtg.png"
@@ -9,6 +10,10 @@ import blue from "../assets/blue-mtg.png"
 import green from "../assets/green-mtg.png"
 import red from "../assets/red-mtg.png"
 import black from "../assets/black-mtg.png"
+import Card from '../model/Card';
+import { FaHeart, FaRegHeart  } from 'react-icons/fa';
+
+
  
 
 const CardSelected = () => {
@@ -45,6 +50,7 @@ const CardSelected = () => {
         getCardSelected();
         }, [id]);
 
+        // Boutons navigation cartes
         const prevCard = () => { 
             navigate(`/cards/${parseInt(id) - 1}`)
               };
@@ -54,6 +60,7 @@ const CardSelected = () => {
               };
         
         
+        // Affichage de couleur d'arrière-plan en fonction de la rareté
         const getBackgroundColor = (rarity ) => {
             if(rarity === "MYTHIQUE") {
                 return 'rgba(206,67,35,255)'
@@ -70,6 +77,7 @@ const CardSelected = () => {
            
         };
 
+        // Affichage d'image correspondant aux couleurs de la carte
         const getColor = (value ) => {
             if(value === "BLANC") {
                 return white
@@ -91,6 +99,80 @@ const CardSelected = () => {
             }
            
         };
+
+      const [idUser, setIdUser] = React.useState([1])
+      const [cardLikedId, setCardLikedId] = React.useState([])
+
+
+        
+      // Renvoie les cartes likés par l'user connecté
+      useEffect(() => {
+      const getCardsLiked = async () => {
+        try {
+            
+            const response = await axios.get('http://localhost:8080/f_all/GetCardLiked?userId=1');
+            
+            const listCards = response.data.map(
+                    card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
+                                    card.colors, card.type, card.rarity, card.edition, card.decks
+            ) )                
+                
+            setCardLikedId(listCards.map(card => card.id))
+            console.log(cardLikedId)
+        }
+        catch (error) {
+            console.log(error);
+            }
+         }
+        getCardsLiked();
+           }, []);
+     
+
+           // Méthode liker une carte
+            const likeCard = async () => {
+                try {
+
+                   await axios.post(`http://localhost:8080/f_all/likeCard?userId=${idUser}&cardId=${id}`);          
+                   setCardLikedId(prevState => [...prevState, id]); 
+                   console.log(cardLikedId)
+                }   
+                catch (error) {
+                    console.log(error);
+                }
+            };
+
+            // Méthode disliker une carte
+            const dislikeCard = async () => {
+                try {
+
+                   await axios.delete(`http://localhost:8080/f_all/dislikeCard?userId=${idUser}&cardId=${id}`);          
+                   setCardLikedId(prevState => prevState.filter(cardId => cardId !== id));
+                   console.log(cardLikedId)
+                    }   
+                catch (error) {
+                    console.log(error);
+                }
+            };
+
+            const likeDislike = () => {
+
+                
+                if (!cardLikedId.some(cardId => cardId === (id))) {
+                    likeCard();
+                }
+                else {
+                    dislikeCard();
+                }
+            }
+
+            const hearthIcon = () => {
+                if(!cardLikedId.some(cardId => cardId === (id))) {
+                    return (<FaRegHeart size="2em" />)
+                }
+                else {
+                    return (<FaHeart size="2em" color="#5D3B8C"/>)
+                }
+            }
 
 
         return (
@@ -129,7 +211,9 @@ const CardSelected = () => {
                     <button onClick={() => prevCard()} > Carte précédente</button>
                     <button onClick={() => nextCard()}> Carte suivante</button>
                  </div>
-                                                   
+                <div className="likeButton-container">
+                    <LikeButton className= "likeButton" onClick={likeDislike} icon={hearthIcon()}/>
+                </div>                                  
                              
             </Section>
         )

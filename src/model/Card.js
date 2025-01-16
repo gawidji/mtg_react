@@ -1,6 +1,6 @@
 class Card {
     constructor ( id, name, text, image, manaCost, value, formats,
-        colors, type, rarity, edition, decks,
+        colors, type, legendary, rarity, edition, deckBuilders, decks,
          decksCommander) {
         this.id = id;
 		this.name = name;
@@ -11,8 +11,10 @@ class Card {
 		this.formats = formats;
 		this.colors = colors;
 		this.type = type;
+		this.legendary = legendary;
 		this.rarity = rarity;
 		this.edition = edition;
+		this.deckBuilders = deckBuilders
 		this.decks = decks;
 		this.decksCommander = decksCommander;
     }
