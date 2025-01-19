@@ -110,15 +110,19 @@ const CardSelected = () => {
       const getCardsLiked = async () => {
         try {
             
-            const response = await axios.get('http://localhost:8080/f_all/GetCardLiked?userId=1');
+            const response = await axios.get(`http://localhost:8080/f_all/GetCardLiked?userId=${idUser}`);
             
             const listCards = response.data.map(
                     card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
                                     card.colors, card.type, card.rarity, card.edition, card.decks
             ) )                
-                
-            setCardLikedId(listCards.map(card => card.id))
+            
+            const listId = listCards.map(card => card.id)
+            let listIdConv = listId.map(valeur => `${valeur}`);
+            
+            setCardLikedId(listIdConv)
             console.log(cardLikedId)
+           
         }
         catch (error) {
             console.log(error);
@@ -170,7 +174,7 @@ const CardSelected = () => {
                     return (<FaRegHeart size="2em" />)
                 }
                 else {
-                    return (<FaHeart size="2em" color="#5D3B8C"/>)
+                    return (<FaHeart size="2em" color="red"/>)
                 }
             }
 
