@@ -4,10 +4,14 @@ import LayoutAdmin from './layouts/layoutAdmin';
 import HomePage from './pages/HomePage';
 import SignPage from './pages/SignPage';
 import LogPage from './pages/LogPage';
+import AccountPage from './pages/AccountPage';
 import CardsPage from './pages/CardsPage';
 import CardSelected from './pages/CardSelected';
 import DecksPage from './pages/DecksPage';
-import UsersPage from './pages/UserPage';import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import DeckSelected from './pages/DeckSelected';
+import UsersPage from './pages/UserPage';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import NewDeck from './pages/NewDeck';
 
 // On réalise une function qui fonctione avec le Router de React
 
@@ -15,20 +19,26 @@ const Router = createBrowserRouter([
   {path:"/",
   element : <LayoutUser/>,
   children: 
-  [{path:"/home",
+  [{path:"/",
       element : <HomePage/>},
     {path:"/sign",
       element : <SignPage/>}, 
     {path: "/log",
       element: <LogPage/>},
+      {path: "/myspace",
+        element: <AccountPage/>},
     {path: "/cards",
       element: <CardsPage/>},
     {path: "/cards/:id",
       element: <CardSelected/>},
     {path: "/decks",
       element: <DecksPage/>},
+      {path: "/decks/:id",
+        element: <DeckSelected/>},
     {path: "/users",
-       element: <UsersPage/>} 
+       element: <UsersPage/>},
+    {path: "/addDeck",
+        element: <NewDeck/>}
     ]
   },
 

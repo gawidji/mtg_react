@@ -30,7 +30,7 @@ const SignPage = function () {
         const user = {
             pseudo,
             email,
-            password
+            password 
         }
 
         console.log(user);
@@ -39,7 +39,7 @@ const SignPage = function () {
 
         try{
             const response = await axios.post('http://localhost:8080/f_all/inscription', user);
-            localStorage.setItem('user', JSON.stringify(response.data))
+            // localStorage.setItem('user', JSON.stringify(response.data))
             alert("Enregistrement reussi");
             navigate('/log')
 
@@ -58,7 +58,7 @@ const SignPage = function () {
         <img src={BanniereMTG} className="d-block w-100" alt="Image 1" />
         <div className="login-container">
         <form className="login-form" onSubmit={handleSubmit}> 
-            <h2>Inscription</h2>
+            <h2 className="p-sign">Inscription</h2>
             <div className="input-group">
                 <label>Pseudo :</label>
                 <input type="pseudo" id="pseudo" name="pseudo" onChange={(e) => setPseudo(e.target.value)} required/>

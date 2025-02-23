@@ -5,15 +5,15 @@ import Section from '../components/section';
 import SearchBar from '../components/searchBar';
 import InputValue from '../components/inputValue';
 import InputManaCoast from '../components/inputManaCoast';
-import CheckboxColor from '../components/checkboxColor';
-import CheckboxFormat from '../components/checkboxFormat';
-import CheckboxRarity from '../components/checkboxRarity';
-import CheckboxEdition from '../components/checkboxEdition';
-import CheckboxType from '../components/checkboxType';
-import CheckboxLegendary from '../components/checkboxLegendary';
+import CheckboxColor from '../components/filterColor';
+import CheckboxFormat from '../components/filterFormat';
+import CheckboxRarity from '../components/filterRarity';
+import CheckboxEdition from '../components/filterEdition';
+import CheckboxType from '../components/filterType';
+import CheckboxLegendary from '../components/filterLegendary';
 import Card from '../model/Card';
 import axios from "axios";
-import "./css/CardsPage.css";
+import "./css/DatasPage.css";
 
 const CardsPage = () => {
     const [cards, setCards] = React.useState([])

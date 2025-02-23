@@ -14,13 +14,14 @@ import Card from '../model/Card';
 import { FaHeart, FaRegHeart  } from 'react-icons/fa';
 
 
- 
+   
 
 const CardSelected = () => {
     const [card, setCard] = React.useState([])
     const [format, setFormat] = React.useState([])
     const [color, setColor] = React.useState([])
     const navigate = useNavigate();
+    
 
     
     const { id } = useParams();
@@ -30,7 +31,8 @@ const CardSelected = () => {
         useEffect(() => {
         const getCardSelected = async () => {
             try {
-                const request = await axios.get(`http://localhost:8080/f_all/getCard?cardId=${id}`);
+                
+                const request = await axios.get(`http://localhost:8080/f_all/getCardID?cardID=${id}`);
 
                 const response = request.data
     
@@ -38,6 +40,8 @@ const CardSelected = () => {
                    
                    setFormat(response.formats)
                    setColor(response.colors)
+
+                   console.log("token : " + token)
 
 
             }   
@@ -100,17 +104,21 @@ const CardSelected = () => {
            
         };
 
-      const [idUser, setIdUser] = React.useState([1])
       const [cardLikedId, setCardLikedId] = React.useState([])
-
+      const token = localStorage.getItem('authToken');
 
         
       // Renvoie les cartes likés par l'user connecté
       useEffect(() => {
       const getCardsLiked = async () => {
         try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                };
             
-            const response = await axios.get(`http://localhost:8080/f_all/GetCardLiked?userId=${idUser}`);
+            const response = await axios.get(`http://localhost:8080/f_user/GetCardLiked`, config);
             
             const listCards = response.data.map(
                     card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
@@ -135,10 +143,15 @@ const CardSelected = () => {
            // Méthode liker une carte
             const likeCard = async () => {
                 try {
+                    const config = {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        };
+                    console.log(`Carte ${id} likée`);
 
-                   await axios.post(`http://localhost:8080/f_all/likeCard?userId=${idUser}&cardId=${id}`);          
-                   setCardLikedId(prevState => [...prevState, id]); 
-                   console.log(cardLikedId)
+                   await axios.post(`http://localhost:8080/f_user/likeCard?cardId=${id}`, config);          
+                   setCardLikedId(prevState => [...prevState, id]);                   
                 }   
                 catch (error) {
                     console.log(error);
@@ -149,9 +162,14 @@ const CardSelected = () => {
             const dislikeCard = async () => {
                 try {
 
-                   await axios.delete(`http://localhost:8080/f_all/dislikeCard?userId=${idUser}&cardId=${id}`);          
+                    const config = {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        };
+
+                   await axios.delete(`http://localhost:8080/f_user/dislikeCard?cardId=${id}`, config);          
                    setCardLikedId(prevState => prevState.filter(cardId => cardId !== id));
-                   console.log(cardLikedId)
                     }   
                 catch (error) {
                     console.log(error);
@@ -160,13 +178,18 @@ const CardSelected = () => {
 
             const likeDislike = () => {
 
-                
+              if(token === null) {
+                navigate(`/log`)
+              }
+              else {
                 if (!cardLikedId.some(cardId => cardId === (id))) {
                     likeCard();
                 }
                 else {
                     dislikeCard();
                 }
+              }
+
             }
 
             const hearthIcon = () => {

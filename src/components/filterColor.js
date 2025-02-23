@@ -1,4 +1,4 @@
-import "./css/checkboxColor.css"
+import "./css/filterColor.css"
 import React from 'react';
 import { useEffect } from 'react';
 import axios from "axios";
@@ -53,18 +53,13 @@ const CheckboxColor = function (props) {
            
         };
 
-       
-
     return (
-    <div className="colors">
-        <div className="checkbox-colors">
-            {colors.map(color => (
-            <li><input type="checkbox" name={"nom"+ color} value={color} onClick={props.onClick} 
-            checked={props.filterColors.includes(color)}/>
-            <img src={getColorPics(color)} className="color-img" alt={color}/></li>
-            ))}
-        </div>
-    <button onClick={props.onClick2}>Valider</button>
+    <div className="checkbox-colors">
+     {colors.map(color => (
+       <li><input type="checkbox" name={"nom"+ color} value={color} onClick={props.onClick} checked={props.filterColors.includes(color)}/>
+       <img src={getColorPics(color)} className="color-img" alt={color}/></li>
+    ))}
+    <button onClick={props.onPush}>{props.text}</button>
     </div>
 
     )

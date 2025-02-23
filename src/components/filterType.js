@@ -1,4 +1,4 @@
-import "./css/checkboxColor.css"
+import "./css/filterColor.css"
 import React from 'react';
 import { useEffect } from 'react';
 import axios from "axios";

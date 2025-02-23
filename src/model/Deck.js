@@ -1,6 +1,6 @@
 class Deck {
     constructor( id,  name, dateCreation, image, format, colors,
-         manaCost, value, isPublic, deckBuilder, deckBuilderName, cartes, commander) {
+         manaCost, value, isPublic, deckBuilder, deckBuilderName, likeNumber, cards, commander) {
     this.id = id;
     this.name = name;
     this.dateCreation = dateCreation;
@@ -12,7 +12,8 @@ class Deck {
     this.isPublic = isPublic;
     this.deckBuilder = deckBuilder;
     this.deckBuilderName = deckBuilderName;
-    this.cartes = cartes;
+    this.likeNumber = likeNumber;
+    this.cards = cards;
     this.commander = commander;
 }
 }

@@ -1,5 +1,4 @@
 import "./css/likeButton.css"
-import { FaHeart, FaRegHeart  } from 'react-icons/fa';
 
 const LikeButton = function (props) {
     return (

@@ -1,40 +1,71 @@
 import BanniereMTG from "../assets/banniere.jpg"
 import React from 'react';
 import Section from '../components/section';
+import { useNavigate } from 'react-router-dom';
 import './css/LogPage.css'
+import axios from "axios";
 
 
 const LogPage = function () {
 
     const [email, setEmail] = React.useState("");
-    const [mdp, setMdp] = React.useState("");
-    // setEmail, setMdp se déclenchent à chaque fois qu'un caractère est entré dans le champ dans lequel ils sont appelés
-    // les valeurs qu'ils récupèrent sont ensuite intégrées dans email et mdp
+    const [password, setPassword] = React.useState("");
+    // const [error, setError] = React.useState("");
+
+    const navigate = useNavigate();
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+/*
+    if (!email || !password) {
+        setError("Email et mot de passe nécessaires");
+        return
+      }
+*/
+        try{
+
+            const user = {
+                email,
+                password
+            }
+            console.log(user)
+
+            const response = await axios.post('http://localhost:8080/f_all/connexion', user);
+            // localStorage.setItem('user', JSON.stringify(response.data))
 
 
-    const SendForm  = async (e) => { e.preventDefault(); console.log({email, mdp});
-    setEmail("");
-    setMdp("");}
-    // se déclenche à l'envoie du form pour éviter un rechargement de la page
+            const jwt = response.data; 
 
+            localStorage.setItem("authToken", jwt)
+
+            alert("Connexion réussie");
+            navigate('/myspace')
+
+        }catch (e) {
+            alert("Email ou mot de passe inccorect")
+        } 
+
+}
     
     return (
     <Section>
         <img src={BanniereMTG} className="d-block w-100" alt="Image 1" />
         <div className="login-container">
-        <form className="login-form" onSubmit={SendForm}> 
-            <h2>Connexion</h2>
+        <form className="login-form" onSubmit={handleSubmit}> 
+            <h2 className="p-log">Connexion</h2>
             <div className="input-group">
                 <label >E-mail :</label>
-                <input type="email" id="email" name="email" onChange={setEmail} required/>
+                <input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} required/>
             </div>
             <div className="input-group">
                 <label>Mot de passe :</label>
-                <input type="password" id="password" name="password" onChange={setMdp} required/>
+                <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)}required/>
             </div>
-            <div className="button-group">
+            <div className="link-group">
                 <button type="submit">Se connecter</button>
+                <a href="/sign"><p className="p-sign">S'inscrire</p></a>
             </div>
+
         </form>
         </div>
     </Section>

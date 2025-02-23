@@ -5,7 +5,7 @@ const NavbarUser = function () {
         <nav className="nav">
  <a href="/actus"><p>Actus</p></a>
 <a href="/cards"><p>Cartes</p></a>
-<a href="/decks"><p>Deck</p></a>
+<a href="/decks"><p>Decks</p></a>
 <a href="/log"><p>Espace personnel</p></a>
 
 

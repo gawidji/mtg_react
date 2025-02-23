@@ -1,4 +1,4 @@
-import "./css/checkboxColor.css"
+import "./css/filterColor.css"
 
 const CheckboxLegendary = function (props) {
     return (

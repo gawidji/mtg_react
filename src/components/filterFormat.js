@@ -31,15 +31,18 @@ const CheckboxFormat = function (props) {
     return (
     <div className="checkbox-formats">
      {formats.map(format => (
-       <li><input type="checkbox" name={"nom"+ format} value={format} onClick={props.onClick} 
-       checked={props.filterFormats.includes(format)}/>
+       <li><input type="checkbox" name={"nom"+ format} value={format} onClick={props.onClick} checked={props.filterFormats.includes(format)}/>
        {format}</li>
     ))}
-     <button onClick={props.onClick2}>Valider</button>
+     <button onClick={props.onPush}>{props.text}</button>
     </div>
 
     )
 }
-
+/*
+<li><input type="checkbox" name={"fullColors"} onClick={props.Reset} checked={props.filterColors.length === 0}/> 
+        <p>Toutes les couleurs</p>
+        </li>
+*/
 
 export default CheckboxFormat
