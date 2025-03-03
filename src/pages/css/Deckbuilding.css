@@ -1,0 +1,61 @@
+.card-body {
+    display: flex;
+    width: 60%;
+    flex-direction: column;
+}
+
+
+.mapping-mana {
+    display: flex;
+    flex-direction: row;
+    max-width: 60%;
+}
+
+    .mana-btn {
+        width: 150px; /* ajuster la taille du bouton */
+        height: 150px; /* ajuster la taille du bouton */
+        border-radius: 50%; /* forme circulaire */
+        padding: 0; /* espace autour de l'image */
+        display: flex; /* centrer l'image */
+        justify-content: center; /* centrer horizontalement */
+        align-items: center; /* centrer verticalement */
+        border: none; /* enlever la bordure par défaut */
+        background-color: transparent; /* fond transparent */
+        overflow: hidden; /* s'assurer que l'image ne dépasse pas */
+    }
+
+    .mana-btn:hover {
+        background-color: transparent; /* Ajouter un fond semi-transparent */
+        transform: scale(1.1); /* Agrandir légèrement le bouton */
+    }
+    
+    /* Au clic - état actif */
+    .mana-btn:active {
+        transform: scale(0.95); /* Réduire légèrement la taille pour un effet de clic */
+        background-color: transparent; /* Fond plus foncé */
+    }
+    
+    .mana-img-select {
+        width: 100%; /* l'image prend toute la largeur du bouton */
+        height: 100%; /* l'image prend toute la hauteur du bouton */
+        object-fit: cover; /* maintenir l'image dans le bouton tout en conservant ses proportions */
+    }
+
+  .deck-container {
+    display: flex;
+    justify-content: center;
+    width: 25%;
+    margin-left: 75%;
+    background-color: gray;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+  }
+  .deck-card{
+    background-color: #1B1D40;
+    color: white;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 5px;
+  }
+  

@@ -9,6 +9,7 @@ import CardsPage from './pages/CardsPage';
 import CardSelected from './pages/CardSelected';
 import DecksPage from './pages/DecksPage';
 import DeckSelected from './pages/DeckSelected';
+import Deckbuilding from './pages/Deckbuilding';
 import UsersPage from './pages/UserPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import NewDeck from './pages/NewDeck';
@@ -33,8 +34,10 @@ const Router = createBrowserRouter([
       element: <CardSelected/>},
     {path: "/decks",
       element: <DecksPage/>},
-      {path: "/decks/:id",
-        element: <DeckSelected/>},
+    {path: "/decks/:id",
+      element: <DeckSelected/>},
+      {path: "/deckbuilding/:id",
+        element: <Deckbuilding/>},
     {path: "/users",
        element: <UsersPage/>},
     {path: "/addDeck",

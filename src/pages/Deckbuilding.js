@@ -1,0 +1,283 @@
+import React from 'react';
+import { useEffect } from 'react';
+import { useParams,  useNavigate} from 'react-router-dom';
+import "./css/Deckbuilding.css";
+import Section from '../components/section';
+import AddButton from '../components/addButton';
+import SearchBar from '../components/searchBar';
+import InputValue from '../components/inputValue';
+import InputManaCoast from '../components/inputManaCoast';
+import CheckboxColor from '../components/filterColor';
+import CheckboxFormat from '../components/filterFormat';
+import CheckboxRarity from '../components/filterRarity';
+import CheckboxEdition from '../components/filterEdition';
+import CheckboxType from '../components/filterType';
+import CheckboxLegendary from '../components/filterLegendary';
+import Card from '../model/Card';
+import axios from "axios";
+import white from "../assets/white-mtg.png"
+import blue from "../assets/blue-mtg.png"
+import green from "../assets/green-mtg.png"
+import red from "../assets/red-mtg.png"
+import black from "../assets/black-mtg.png"
+import white_mana from "../assets/white_mana.png"
+import blue_mana from "../assets/blue_mana.png"
+import green_mana from "../assets/green_mana.png"
+import red_mana from "../assets/red_mana.png"
+import black_mana from "../assets/black_mana.png"
+import { CgAdd  } from "react-icons/cg";
+import { TiDeleteOutline } from "react-icons/ti";
+
+
+
+ const Deckbuilding = () => {
+
+    
+       const { id } = useParams();
+       const [deck, setDeck] = React.useState([])
+       const [deckCards, setDeckCards] = React.useState([])
+       const [colors, setColors] = React.useState([])
+        
+        // Renvoie les attributs du deck sélectionné
+        useEffect(() => {
+            const getDeckSelected = async () => {
+                try {
+                    const request = await axios.get(`http://localhost:8080/f_all/getDeckID?deckID=${id}`);
+    
+                    const response = request.data
+        
+                        setDeck(response)
+                        
+                        setColors(response.colors)
+  
+    
+                }   
+                catch (error) {
+                    console.log(error);
+                }
+    
+        
+            }
+            getDeckSelected();
+            }, [id]);
+
+
+    // Renvoie les cartes du deck sélectionné
+    useEffect(() => {
+        const getCardsDeck = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/f_all/getCardDeckID?deckID=${id}`);
+
+                const listCards = response.data.map(
+                    card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
+                                    card.colors, card.type, card.rarity, card.edition, card.decks
+            ) ) 
+            setDeckCards(listCards)
+
+            }   
+            catch (error) {
+                console.log(error);
+            }
+
+    
+        }
+        getCardsDeck();
+        }, [deckCards]);
+
+
+    // Affichage d'image correspondant aux couleurs de la carte
+            const getColors = (value ) => {
+                if(value === "BLANC") {
+                    return white
+                }
+                if(value === "BLEU") {
+                    return blue
+                }
+                if(value === "VERT") {
+                    return green
+                }
+                if(value === "ROUGE") {
+                    return red
+                }
+                if(value === "NOIR") {
+                    return black
+                }
+                if(value === "INCOLORE") {
+                    return null
+                }
+               
+            };
+
+        const getImgColor = (value ) => {
+                    if(value === "BLANC") {
+                        return white_mana
+                    }
+                    if(value === "BLEU") {
+                        return blue_mana
+                    }
+                    if(value === "VERT") {
+                        return green_mana
+                    }
+                    if(value === "ROUGE") {
+                        return red_mana
+                    }
+                    if(value === "NOIR") {
+                        return black_mana
+                    }
+                    if(value === "INCOLORE") {
+                        return null
+                    }
+                   
+                };
+
+        // Permet de chercher les cartes pour le deck
+        const [cards, setCards] = React.useState([])
+        const [detailsCard, setDetailsCard] = React.useState(null)
+
+         // Filtre recherche
+            const [filterName, setFilterName] = React.useState("")
+            const [inputValueMin, setInputValueMin] = React.useState("")
+            const [inputValueMax, setInputValueMax] = React.useState("")
+            const [inputManaCostMin, setInputManaCostMin] = React.useState("")
+            const [inputManaCostMax, setInputManaCostMax] = React.useState("")
+            const [filterColors, setFilterColors] = React.useState([])
+            const [filterFormats, setFilterFormats] = React.useState([])
+            const [filterRarities, setFilterRarities] = React.useState([])
+            const [filterEditions, setFilterEditions] = React.useState([])
+            const [filterTypes, setFilterTypes] = React.useState([])
+            const [filterLegendary, setFilterLegendary] = React.useState(null)
+
+        const getCards = async () => {
+            try {
+
+                // Contient les RequestParams de la requete
+                const params = {
+                    name: filterName,
+                    colors: filterColors,
+                    formats: filterFormats,
+                    rarities : filterRarities,
+                    valueMin : inputValueMin,
+                    valueMax : inputValueMax,
+                    manaCostMin : inputManaCostMin,
+                    manaCostMax : inputManaCostMax,
+                    editions : filterEditions,
+                    types : filterTypes,
+                    legendary : filterLegendary
+                };
+                
+                const response = await axios.get('http://localhost:8080/f_all/getCards', {params} );
+                
+                const listCards = response.data.map(
+                        card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
+                                        card.colors, card.type, card.rarity, card.edition, card.decks 
+                ) )                
+                    
+                setCards(listCards)
+            }   
+            catch (error) {
+                console.log(error);
+            }
+        }
+                React.useEffect(() => {
+                  getCards();
+              }, [filterName, inputValueMin, inputValueMax, inputManaCostMin, inputManaCostMax,
+                 filterColors, filterFormats, filterRarities, filterEditions, filterTypes, filterLegendary]);
+
+
+        // Ajouter un terrain
+
+        const addLand = async (value) => {
+            try { 
+
+                
+                const response = await axios.post(`http://localhost:8080/f_user/addCardOnDeck?cardId=${value}&deckId=${id}` );
+                
+                 }   
+            catch (error) {
+                console.log(error);
+            }
+        }
+
+        const landColor = (value ) => {
+            if(value === "BLANC") {
+                return "9"
+            }
+            if(value === "BLEU") {
+                return "12"
+            }
+            if(value === "VERT") {
+                return "14"
+            }
+            if(value === "ROUGE") {
+                return "15"
+            }
+            if(value === "NOIR") {
+                return "16"
+            }
+            if(value === "INCOLORE") {
+                return null
+            }
+           
+        };
+
+        const addLandColor = (value) => {
+            addLand(landColor(value))
+        }
+
+        // Retirer une carte du deck
+        const deleteCard = async (value) => {
+            try {               
+                const response = await axios.delete(`http://localhost:8080/f_user/deleteCardOnDeck?cardId=${value}&deckId=${id}` );
+                
+                 }   
+            catch (error) {
+                console.log(error);
+            }
+        }
+
+        
+        return (
+            <Section>
+                <div className="card-body" >
+                            <h2 className="card-name"> {deck.name}</h2>                
+                            <h6 className='card-value'> Prix du deck : {deck.value} €</h6> 
+                            <h6 className='card-value'> Cout en mana moyen : {deck.manaCost}</h6> 
+                            <h6 className='format'> Format : </h6> 
+                            <li className='card-format' style={{ backgroundColor: 'green' }}>{deck.format}</li>                            
+                            <h6 className='color'> Couleurs : </h6> 
+                            {colors && colors.length > 0 && (
+                                <div className='mappingColor'>
+                                  {colors.map((color)  => (
+                                <img src={getColors(color)} className="color-img-select" alt={color}/>                                
+                             ))}
+                             </div>
+                            )}
+                </div>
+
+                <div className='mapping-mana'>
+                        {colors.map((color)  => (
+                              <button className="mana-btn" onClick={() => addLandColor(color)}>
+                              <img src={getImgColor(color)} className="mana-img-select" alt={color}/></button>                             
+                           ))}
+                </div>
+
+                 <div className='deck-container'>
+                        {deckCards && deckCards.length > 0 && (
+                            <div className='mappingDeckCard'>
+                                  {deckCards.map((deckCard)  => (
+                                <div className='deck-card'>
+                                    <AddButton onClick={() => deleteCard(deckCard.id)} icon={<TiDeleteOutline />}/>
+                                    <p className='deck-card-name' key={deckCard.id}>{deckCard.name}</p>  
+                                </div>                           
+                             ))}
+                         </div>
+                         )}    
+                </div>
+                    
+
+            </Section>
+        )
+
+ }
+
+ export default Deckbuilding;

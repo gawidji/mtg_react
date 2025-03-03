@@ -1,0 +1,131 @@
+/* Style de base pour la card */
+
+
+@media (max-width: 768px) {
+    .new-deck {
+        width: 30%; 
+        border-radius: 10px; 
+        overflow: hidden; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        background-color: #fff; 
+        transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        margin-right: 35%; 
+    }
+}
+
+@media (max-width: 480px) {
+
+    
+
+    .new-deck {
+        width: 90%; /* Largeur fixe */
+        border-radius: 10px; /* Coins arrondis */
+        overflow: hidden; /* Pour que l'image respecte les coins arrondis */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        background-color: #fff; /* Fond blanc */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation au survol */
+        margin-right: 35%; 
+    }
+    .color-line, .name-line {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+  
+  /* Effet de survol */
+  .new-deck:hover {
+    transform: translateY(-5px); /* Légère élévation */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
+  }
+  
+  /* Style de l'image */
+  .deck-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Pour que l'image couvre bien l'espace */
+  }
+  
+  /* Style du contenu */
+  .card-body {
+    padding: 20px;
+  }
+  
+  /* Style du titre */
+  .card-name {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Style des lignes (name-line, format-line, color-line) */
+  .name-line,
+  .format-line,
+  .color-line {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacement entre les éléments */
+    margin-bottom: 10px;
+    
+  }
+
+  .name-line{
+    border-bottom: 1px solid black;
+  }
+
+  .color-line {
+    border-bottom: 1px solid black;
+    padding-bottom: 15px;
+  }
+
+  
+  /* Style des sous-titres (format, color) */
+  .format,
+  .color {
+    font-size: 1rem;
+    color: #667;
+    margin: 0;
+  }
+  
+  /* Style du format (cercle coloré) */
+  .card-format {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: green; /* Couleur dynamique */
+  }
+  
+  /* Style des icônes de couleur */
+  .mappingColor {
+    display: flex;
+    gap: 5px; /* Espacement entre les icônes */
+  }
+  
+  .color-img-select {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%; /* Icônes rondes */
+    object-fit: cover;
+  }
+  
+  /* Style du bouton de création */
+  .create-deck {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+  }
+  
+  /* Effet de survol sur le bouton */
+  .create-deck-button:hover {
+    background-color: #0056b3;
+  }

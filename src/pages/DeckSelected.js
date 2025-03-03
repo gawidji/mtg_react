@@ -39,6 +39,7 @@ const DeckSelected = () => {
                     setDeck(response)
                    
                    setColor(response.colors)
+                   console.log(color)
 
 
             }   
@@ -241,7 +242,7 @@ const DeckSelected = () => {
                                 </div>
                             )}
                         </div>
-                    </div>  
+                    </div>   
                 <div className='button-navig'>
                     <button onClick={() => prevDeck()} > Deck précédent</button>
                     <button onClick={() => nextDeck()}> Deck suivant</button>

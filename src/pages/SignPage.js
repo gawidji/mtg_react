@@ -4,7 +4,7 @@ import Section from '../components/section';
 import "./css/SignPage.css"
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import validator from 'validator';
 
 const SignPage = function () {
 
@@ -12,6 +12,22 @@ const SignPage = function () {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
+    const validInput = () => {
+        const newErrors = [];
+
+        if (!pseudo.trim()) {
+            newErrors.push("Veuillez renseigner un pseudo");
+        }
+
+
+        if (!validator.isEmail(email)) {
+            newErrors.push("Veuillez entrer un email valide");
+        }
+
+        if (password.length < 12) {
+            newErrors.push("Veuillez entrer d'au moins 12 caractères.");
+        }
+    }
 
 
     const onClickClear  = async (e) => { e.preventDefault(); console.log({pseudo, email, password});
@@ -25,6 +41,10 @@ const SignPage = function () {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validInput()) {
+            return;  // Si des erreurs existent, on arrête l'envoi du formulaire
+        }
 
         // cette const contient un objet avec les memes valeurs que l'api, elle communique ainsi directement avec l'API
         const user = {
