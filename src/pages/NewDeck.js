@@ -3,6 +3,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Section from '../components/section';
+import Pipeline from '../components/pipeline';
 import CheckboxColor from '../components/checkboxColor'
 import CheckboxFormat from '../components/checkboxFormat'
 import ButtonModif from '../components/buttonModif';
@@ -16,7 +17,8 @@ import defaultImg from "../assets/default_deck.png"
 
 const NewDeck = () => {
     const navigate = useNavigate();
-    
+
+      
     // Change de valeur à la séléction
     const [selectedColors, setSelectedColors] = React.useState([])
     const [selectedFormat, setSelectedFormat] = React.useState("")
@@ -90,11 +92,18 @@ const NewDeck = () => {
         setName("");
       };
       
+      const [deckID, setDeckID] = React.useState("")
+      const token = localStorage.getItem('authToken');
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
+      const handleSubmit = async () => {
+        //e.preventDefault();
+        const config = {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+          };
 
-        const deck = {
+        const deckRegister = {
             name,
             format,
             image,
@@ -102,15 +111,15 @@ const NewDeck = () => {
         }
 
         try{
-            const response = await axios.post('http://localhost:8080/f_user/addDeck', deck);          
-            navigate(`/deckbuilding/${response}`)
+            const response = await axios.post('http://localhost:8080/f_user/addDeck', config, deckRegister);          
+            //setDeckID(response)
+            navigate(`/deckbuilding`, { state: { deckID: response }}) 
         }catch (e) {
             alert("Erreur 404")
-        } // L'alert affiche les données et un message reçu du serveur par la requete response
-
-        
-
+        }     
     }
+
+
        
     const getColor = (value ) => {
                 if(value === "BLANC") {
@@ -138,33 +147,64 @@ const NewDeck = () => {
 
     return (
     <Section>
-        {colors.length === 0 && (
+        
+        {colors.length === 0 && ( 
+          <div className='color-group'>
+                <div className='pipeline-container'>
+                    <Pipeline style={{backgroundColor: '#5D3B8C', color:'#ffffff' }} text={"Couleurs"}/>
+                    <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000' }} text={"Format"}/>
+                    <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000'}} text={"Nom"}/>
+                    <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000' }} text={"Image"}/>
+                </div>
                 <CheckboxColor
                     onClick={(event) => selectColors(event.target.value)}
                     filterColors={selectedColors}
+                    disabled={selectedColors.length === 0}
                     onClick2={() => validColors()}
                 />
+          </div>
             )}
         {colors.length !== 0 && format === "" && (
+          <div className='format-group'>
+                <div className='pipeline-container'>
+                  <Pipeline style={{backgroundColor: '#D3D3D3', color:'#000000' }} text={"Couleurs"}/>
+                  <Pipeline style={{backgroundColor: '#5D3B8C', color: '#ffffff' }} text={"Format"}/>
+                  <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000'}} text={"Nom"}/>
+                  <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000' }} text={"Image"}/>
+                </div>
                 <CheckboxFormat
                     onClick={(event) => selectFormat(event.target.value)}
                     filterFormats={selectedFormat}
                     onClick2={() => validFormat()}
+                    disabled={selectedFormat === ""}
                 />
+          </div>
             )}
         {format !== "" && name === "" && (
-          <div className="input-group">
-                <label>Nommez votre deck :</label>               
-                <input type="name" id="name" name="name" onChange={(e) => setSelectedName(e.target.value)}required/>
-                <button onClick={() => validName()}>Valider</button>
+          <div className="name-group">
+              <div className='pipeline-container'>
+                  <Pipeline style={{backgroundColor: '#D3D3D3', color:'#000000' }} text={"Couleurs"}/>
+                  <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000' }} text={"Format"}/>
+                  <Pipeline style={{backgroundColor: '#5D3B8C', color: '#ffffff'}} text={"Nom"}/>
+                  <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000' }} text={"Image"}/>
+              </div>
+              <p >Nommez votre deck :</p>               
+              <input type="name" id="name" name="name" onChange={(e) => setSelectedName(e.target.value)}required/>
+              <button onClick={() => validName()} disabled={selectedName.length < 8 || selectedName.length > 15}>Valider</button>
           </div>
           )}
         {name !== "" && image === "" && (
-          <div className="input-group">
-                <label>Ajoutez une image :</label>
-                <label>optionnel</label>
+          <div className="image-group">
+                <div className='pipeline-container'>
+                    <Pipeline style={{backgroundColor: '#D3D3D3', color:'#000000' }} text={"Couleurs"}/>
+                    <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000' }} text={"Format"}/>
+                    <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000'}} text={"Nom"}/>
+                    <Pipeline style={{backgroundColor: '#5D3B8C', color: '#ffffff' }} text={"Image"}/>
+                </div>
+                <p>Ajoutez une image :</p>
+                <p>optionnel</p>
                 <button onClick={() => passImage()}>Passer</button>             
-                <button onClick={() => validImage()}>Valider</button>
+                <button onClick={() => validImage()} disabled={selectedImage === ""}>Valider</button>
           </div>
           )}
         {colors.length !== 0 && format !== "" && name !== "" && image !== "" && (

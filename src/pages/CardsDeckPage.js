@@ -1,24 +1,57 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { CgAdd  } from "react-icons/cg";
 import Section from '../components/section';
 import SearchBar from '../components/searchBar';
 import InputValue from '../components/inputValue';
 import InputManaCoast from '../components/inputManaCoast';
-import FilterColor from '../components/filterColor';
 import CheckboxFormat from '../components/filterFormat';
 import CheckboxRarity from '../components/filterRarity';
 import CheckboxEdition from '../components/filterEdition';
 import CheckboxType from '../components/filterType';
 import CheckboxLegendary from '../components/filterLegendary';
+import AddButton from '../components/addButton';
 import Card from '../model/Card';
 import axios from "axios";
 import "./css/DatasPage.css";
+import white from "../assets/white-mtg.png"
+import blue from "../assets/blue-mtg.png"
+import green from "../assets/green-mtg.png"
+import red from "../assets/red-mtg.png"
+import black from "../assets/black-mtg.png"
 
-const CardsPage = () => {
+const CardsDeckPage = () => {
     const [cards, setCards] = React.useState([])
     const [detailsCard, setDetailsCard] = React.useState(null)
     const navigate = useNavigate();
+    const id = 10;
+    const [deck, setDeck] = React.useState([])
+    const [format, setFormat] = React.useState([])
+    const [colors, setColors] = React.useState([])
+
+    // Renvoie les attributs du deck sélectionné 
+    useEffect(() => {
+        const getDeckSelected = async () => {
+            try {
+                const request = await axios.get(`http://localhost:8080/f_all/getDeckID?deckID=${id}`);
+
+                const response = request.data
+    
+                    setDeck(response)
+                    setFormat(response.format)
+                    setColors(response.colors)
+
+
+            }   
+            catch (error) {
+                console.log(error);
+            }
+
+    
+        }
+        getDeckSelected();
+        }, [id]);
 
     // Filtre recherche
     const [filterName, setFilterName] = React.useState("")
@@ -27,18 +60,11 @@ const CardsPage = () => {
     const [inputManaCostMin, setInputManaCostMin] = React.useState("")
     const [inputManaCostMax, setInputManaCostMax] = React.useState("")
     const [filterColors, setFilterColors] = React.useState([])
-    const [filterFormats, setFilterFormats] = React.useState([])
     const [filterRarities, setFilterRarities] = React.useState([])
     const [filterEditions, setFilterEditions] = React.useState([])
     const [filterTypes, setFilterTypes] = React.useState([])
     const [filterLegendary, setFilterLegendary] = React.useState(null)
-
-
-
-
-
-
-    
+ 
         // L'appel asynchrone doit obligatoirement etre fait à l'intérieur de useEffect
         const getCards = async () => {
             try {
@@ -46,8 +72,8 @@ const CardsPage = () => {
                 // Contient les RequestParams de la requete
                 const params = {
                     name: filterName,
-                    colors: filterColors,
-                    formats: filterFormats,
+                    colors: colors,
+                    formats: format,
                     rarities : filterRarities,
                     valueMin : inputValueMin,
                     valueMax : inputValueMax,
@@ -76,7 +102,7 @@ const CardsPage = () => {
         React.useEffect(() => {
           getCards();
       }, [filterName, inputValueMin, inputValueMax, inputManaCostMin, inputManaCostMax,
-         filterColors, filterFormats, filterRarities, filterEditions, filterTypes, filterLegendary]);
+         filterColors, filterRarities, filterEditions, filterTypes, filterLegendary]);
 
 
         const chooseCard = (id) => {
@@ -92,7 +118,7 @@ const CardsPage = () => {
         
         // Filtre colors
         const selectColors = (newColor) => {
-            setFilterColors(prevColors => {
+            setColors(prevColors => {
               const colorsArray = Array.isArray(prevColors) ? prevColors : (prevColors || '').split(',').filter(color => color.trim() !== '');
               if (colorsArray.includes(newColor)) {
                 return colorsArray.filter(color => color !== newColor).join(',');
@@ -101,27 +127,34 @@ const CardsPage = () => {
               }
             });
           };
+
+          const getColorPics = (value) => {
+                      if(value === "BLANC") {
+                          return white
+                      }
+                      if(value === "BLEU") {
+                          return blue
+                      }
+                      if(value === "VERT") {
+                          return green
+                      }
+                      if(value === "ROUGE") {
+                          return red
+                      }
+                      if(value === "NOIR") {
+                          return black
+                      }
+                      if(value === "INCOLORE") {
+                          return null
+                      }
+                     
+                  };
         
           const removeColors = () => {
             setFilterColors([])
           }   
           
-          // Filtre formats
-          const selectFormats = (newFormat) => {
-            setFilterFormats(prevFormats => {
-              const formatsArray = Array.isArray(prevFormats) ? prevFormats : (prevFormats || '').split(',').filter(format => format.trim() !== '');
-              if (formatsArray.includes(newFormat)) {
-                return formatsArray.filter(format => format !== newFormat).join(',');
-              } else {
-                return [...formatsArray, newFormat].join(',');                 
-              }
-            });
-          };
-          const removeFormats = () => {
-            setFilterFormats([])
-          } 
-
-
+          
           // Filtre raretés
           const selectRarities = (newRarity) => {
             setFilterRarities(prevRarities => {
@@ -176,7 +209,36 @@ const CardsPage = () => {
             setFilterLegendary(null)
           }
         }
-                 
+
+        // Ajouter les cartes dans le deck
+        
+        const [cardsSelected, setCardsSelected] = React.useState([])
+
+        const addCard = (newCard) => {
+            setCardsSelected(prevCards => {
+            const cardsArray = Array.isArray(prevCards) ? prevCards : (prevCards || '').split(',').filter(card => card.trim() !== '');
+            if (cardsArray.includes(newCard)) {
+              return cardsArray.filter(card => card !== newCard).join(',');
+            } else {
+              return [...cardsArray, newCard].join(',');                  
+            }
+          });
+        };
+
+        
+
+        const addCards = async () => {
+            try { 
+
+                const cardIds = cardsSelected.map(card => card.id);
+
+                const response = await axios.post(`http://localhost:8080/f_user/addCardOnDeck?cardId=${cardIds}&deckId=${id}` );
+                
+                 }   
+            catch (error) {
+                console.log(error);
+            }
+        }         
     
  
 
@@ -193,10 +255,12 @@ const CardsPage = () => {
             
             
             <div className="filters">
-            <FilterColor onClick={(event) => selectColors(event.target.value)} filterColors={filterColors}
-              onPush={removeColors} text={"Remove colors filter"}/>
-            <CheckboxFormat onClick={(event) => selectFormats(event.target.value)} filterFormats={filterFormats}
-              onPush={removeFormats} text={"Remove formats filter"}/>
+            <div className="checkbox-colors">
+                {colors.map(color => (
+                <li><input type="checkbox" name={"nom"+ color} value={color} onClick={(event) => selectColors(event.target.value)} checked={filterColors}/>
+                <img src={getColorPics(color)} className="color-img" alt={color}/></li>
+                ))}
+            </div>
             <CheckboxRarity onClick={(event) => selectRarities(event.target.value)} filterRarities={filterRarities}
               onPush={removeRarities} text={"Remove rarity filter"}/>
             <CheckboxEdition onClick={(event) => selectEditions(event.target.value)} filterEditions={filterEditions}
@@ -215,6 +279,7 @@ const CardsPage = () => {
                       <img className="card-img" src={card.image} alt="Card-image" onClick={() => chooseCard(card.id)} 
                       onMouseEnter={() => hoveredCard(card.id, card.name, card.type, card.text) } onMouseOut={() => hoveredCard() } />
                       <strong className="card-name"> {card.name} </strong>
+                      <AddButton onClick={() => addCard(card.id)} icon={<CgAdd />}/>
 
 
                   {detailsCard && detailsCard.id === card.id && (
@@ -233,6 +298,8 @@ const CardsPage = () => {
                   )}
               </div>
               ))}
+              <button className='add-cards-button' onClick={() => addCards()} disabled={cardsSelected.length === 0}>
+              Ajouter {cardsSelected.length} cartes</button>
       </div>
                 
 
@@ -240,4 +307,4 @@ const CardsPage = () => {
         )
 }
 
-export default CardsPage;
+export default CardsDeckPage;

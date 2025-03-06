@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useParams,  useNavigate} from 'react-router-dom';
+import { useLocation ,  useNavigate} from 'react-router-dom';
 import "./css/Deckbuilding.css";
 import Section from '../components/section';
 import AddButton from '../components/addButton';
@@ -25,20 +25,20 @@ import blue_mana from "../assets/blue_mana.png"
 import green_mana from "../assets/green_mana.png"
 import red_mana from "../assets/red_mana.png"
 import black_mana from "../assets/black_mana.png"
-import { CgAdd  } from "react-icons/cg";
 import { TiDeleteOutline } from "react-icons/ti";
 
 
 
  const Deckbuilding = () => {
 
-    
-       const { id } = useParams();
+       const location = useLocation();
+       const id = location.state?.deckID; 
        const [deck, setDeck] = React.useState([])
        const [deckCards, setDeckCards] = React.useState([])
        const [colors, setColors] = React.useState([])
+       const [format, setFormat]= React.useState([])
         
-        // Renvoie les attributs du deck sélectionné
+        // Renvoie les attributs du deck sélectionné 
         useEffect(() => {
             const getDeckSelected = async () => {
                 try {
@@ -47,7 +47,7 @@ import { TiDeleteOutline } from "react-icons/ti";
                     const response = request.data
         
                         setDeck(response)
-                        
+                        setFormat(response.format)
                         setColors(response.colors)
   
     
@@ -130,63 +130,10 @@ import { TiDeleteOutline } from "react-icons/ti";
                    
                 };
 
-        // Permet de chercher les cartes pour le deck
-        const [cards, setCards] = React.useState([])
-        const [detailsCard, setDetailsCard] = React.useState(null)
+       
+        // Ajouter une carte
 
-         // Filtre recherche
-            const [filterName, setFilterName] = React.useState("")
-            const [inputValueMin, setInputValueMin] = React.useState("")
-            const [inputValueMax, setInputValueMax] = React.useState("")
-            const [inputManaCostMin, setInputManaCostMin] = React.useState("")
-            const [inputManaCostMax, setInputManaCostMax] = React.useState("")
-            const [filterColors, setFilterColors] = React.useState([])
-            const [filterFormats, setFilterFormats] = React.useState([])
-            const [filterRarities, setFilterRarities] = React.useState([])
-            const [filterEditions, setFilterEditions] = React.useState([])
-            const [filterTypes, setFilterTypes] = React.useState([])
-            const [filterLegendary, setFilterLegendary] = React.useState(null)
-
-        const getCards = async () => {
-            try {
-
-                // Contient les RequestParams de la requete
-                const params = {
-                    name: filterName,
-                    colors: filterColors,
-                    formats: filterFormats,
-                    rarities : filterRarities,
-                    valueMin : inputValueMin,
-                    valueMax : inputValueMax,
-                    manaCostMin : inputManaCostMin,
-                    manaCostMax : inputManaCostMax,
-                    editions : filterEditions,
-                    types : filterTypes,
-                    legendary : filterLegendary
-                };
-                
-                const response = await axios.get('http://localhost:8080/f_all/getCards', {params} );
-                
-                const listCards = response.data.map(
-                        card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
-                                        card.colors, card.type, card.rarity, card.edition, card.decks 
-                ) )                
-                    
-                setCards(listCards)
-            }   
-            catch (error) {
-                console.log(error);
-            }
-        }
-                React.useEffect(() => {
-                  getCards();
-              }, [filterName, inputValueMin, inputValueMax, inputManaCostMin, inputManaCostMax,
-                 filterColors, filterFormats, filterRarities, filterEditions, filterTypes, filterLegendary]);
-
-
-        // Ajouter un terrain
-
-        const addLand = async (value) => {
+        const addCard = async (value) => {
             try { 
 
                 
@@ -198,6 +145,7 @@ import { TiDeleteOutline } from "react-icons/ti";
             }
         }
 
+        // Ajouter un terrain
         const landColor = (value ) => {
             if(value === "BLANC") {
                 return "9"
@@ -220,8 +168,8 @@ import { TiDeleteOutline } from "react-icons/ti";
            
         };
 
-        const addLandColor = (value) => {
-            addLand(landColor(value))
+        const addLand = (value) => {
+            addCard(landColor(value))
         }
 
         // Retirer une carte du deck
@@ -234,6 +182,10 @@ import { TiDeleteOutline } from "react-icons/ti";
                 console.log(error);
             }
         }
+
+        // Rechercher une carte dans la datebase
+
+        
 
         
         return (
@@ -256,11 +208,11 @@ import { TiDeleteOutline } from "react-icons/ti";
 
                 <div className='mapping-mana'>
                         {colors.map((color)  => (
-                              <button className="mana-btn" onClick={() => addLandColor(color)}>
+                              <button className="mana-btn" onClick={() => addLand(color)}>
                               <img src={getImgColor(color)} className="mana-img-select" alt={color}/></button>                             
                            ))}
                 </div>
-
+                <button>Ajouter des cartes</button>
                  <div className='deck-container'>
                         {deckCards && deckCards.length > 0 && (
                             <div className='mappingDeckCard'>
@@ -272,9 +224,7 @@ import { TiDeleteOutline } from "react-icons/ti";
                              ))}
                          </div>
                          )}    
-                </div>
-                    
-
+                </div>                
             </Section>
         )
 

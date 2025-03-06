@@ -10,7 +10,7 @@ import black from "../assets/black-mtg.png"
 
 
 
-const CheckboxColor = function (props) {
+const FilterColor = function (props) {
 
     const [colors, setColors] = React.useState([])
 
@@ -70,4 +70,4 @@ const CheckboxColor = function (props) {
         </li>
 */
 
-export default CheckboxColor
+export default FilterColor

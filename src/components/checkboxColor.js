@@ -64,7 +64,7 @@ const CheckboxColor = function (props) {
             <img src={getColorPics(color)} className="color-img" alt={color}/></li>
             ))}
         </div>
-    <button onClick={props.onClick2}>Valider</button>
+    <button onClick={props.onClick2} disabled={props.disabled}>Valider</button>
     </div>
 
     )

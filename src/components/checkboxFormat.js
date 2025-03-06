@@ -35,7 +35,7 @@ const CheckboxFormat = function (props) {
        checked={props.filterFormats.includes(format)}/>
        {format}</li>
     ))}
-     <button onClick={props.onClick2}>Valider</button>
+     <button onClick={props.onClick2} disabled={props.disabled}>Valider</button>
     </div>
 
     )

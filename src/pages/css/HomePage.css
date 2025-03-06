@@ -8,7 +8,7 @@
     background-color:  #5D3B8C;
     margin-top: 5%;
     width: 30%;
-    border-radius: 20px;
+    border-radius: 30px;
     padding: 0.5%;
     margin-left: auto;
     margin-right: auto;
@@ -65,6 +65,10 @@
 
 /* Media query pour les écrans de 480px et moins (mobiles très petits) */
 @media (max-width: 480px) {
+    .title-cards {
+        width: 50%;
+    }
+    
     .card-img {
         max-width: 70%; /* Les images prennent toute la largeur sur les petits écrans */
     }
