@@ -12,16 +12,11 @@ const LogPage = function () {
     const [password, setPassword] = React.useState("");
     // const [error, setError] = React.useState("");
 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
 const handleSubmit = async (e) => {
     e.preventDefault();
-/*
-    if (!email || !password) {
-        setError("Email et mot de passe nécessaires");
-        return
-      }
-*/
+
         try{
 
             const user = {
@@ -45,7 +40,7 @@ const handleSubmit = async (e) => {
             alert("Email ou mot de passe inccorect")
         } 
 
-}
+} 
     
     return (
     <Section>
@@ -68,7 +63,7 @@ const handleSubmit = async (e) => {
 
         </form>
         </div>
-    </Section>
+    </Section> 
     )
 }
 

@@ -1,4 +1,4 @@
-.card-section, .deck-section {
+.card-section {
     display: grid;
     margin: 30px;
     grid-template-columns: repeat(10, 1fr); /* 5 images par ligne */

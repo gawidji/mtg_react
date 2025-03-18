@@ -7,6 +7,9 @@ import Pipeline from '../components/pipeline';
 import CheckboxColor from '../components/checkboxColor'
 import CheckboxFormat from '../components/checkboxFormat'
 import ButtonModif from '../components/buttonModif';
+import ButtonValid from '../components/buttonValid';
+import ButtonPass from '../components/buttonPass';
+import InputName from '../components/inputName';
 import axios from "axios";
 import white from "../assets/white-mtg.png"
 import blue from "../assets/blue-mtg.png"
@@ -16,10 +19,10 @@ import black from "../assets/black-mtg.png"
 import defaultImg from "../assets/default_deck.png"
 
 const NewDeck = () => {
-    const navigate = useNavigate();
-
+    
+   const navigate = useNavigate();
       
-    // Change de valeur à la séléction
+    // Change de valeur à la sélection
     const [selectedColors, setSelectedColors] = React.useState([])
     const [selectedFormat, setSelectedFormat] = React.useState("")
     const [selectedName, setSelectedName] = React.useState("")
@@ -33,7 +36,7 @@ const NewDeck = () => {
     const [image, setImage] = React.useState("")
 
 
-    // Filtre colors
+    // Choix colors
     const selectColors = (newColor) => {
       setSelectedColors(prevColors => {
         // Si la couleur existe déjà dans le tableau, on la retire
@@ -52,7 +55,7 @@ const NewDeck = () => {
         setColors(selectedColors)
       }
        
-      // Filtre format
+      // Choix format
       const selectFormat = (newFormat) => {
         setSelectedFormat(newFormat);
       };
@@ -62,7 +65,7 @@ const NewDeck = () => {
         setFormat(selectedFormat)
       }
 
-      // Validation name
+      // Choix name
       const validName = () => {
         setName(selectedName)
       }
@@ -92,16 +95,17 @@ const NewDeck = () => {
         setName("");
       };
       
-      const [deckID, setDeckID] = React.useState("")
       const token = localStorage.getItem('authToken');
 
       const handleSubmit = async () => {
         //e.preventDefault();
+        /*
         const config = {
           headers: {
               Authorization: `Bearer ${token}`,
           },
           };
+        */
 
         const deckRegister = {
             name,
@@ -111,15 +115,15 @@ const NewDeck = () => {
         }
 
         try{
-            const response = await axios.post('http://localhost:8080/f_user/addDeck', config, deckRegister);          
-            //setDeckID(response)
-            navigate(`/deckbuilding`, { state: { deckID: response }}) 
+            const response = await axios.post('http://localhost:8080/f_user/addDeckTest', deckRegister); 
+            const responseData = response.data
+            navigate(`/deckbuilding`, { state: { deckID: responseData }}) 
         }catch (e) {
             alert("Erreur 404")
         }     
     }
 
-
+    
        
     const getColor = (value ) => {
                 if(value === "BLANC") {
@@ -146,7 +150,7 @@ const NewDeck = () => {
                
 
     return (
-    <Section>
+    <Section> 
         
         {colors.length === 0 && ( 
           <div className='color-group'>
@@ -156,12 +160,13 @@ const NewDeck = () => {
                     <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000'}} text={"Nom"}/>
                     <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000' }} text={"Image"}/>
                 </div>
+            <div className='color-container'>
                 <CheckboxColor
                     onClick={(event) => selectColors(event.target.value)}
                     filterColors={selectedColors}
-                    disabled={selectedColors.length === 0}
-                    onClick2={() => validColors()}
-                />
+                /> 
+                <ButtonValid disabled={selectedColors.length === 0} text={"Valider"} onClick={() => validColors()}/>
+            </div>
           </div>
             )}
         {colors.length !== 0 && format === "" && (
@@ -174,10 +179,9 @@ const NewDeck = () => {
                 </div>
                 <CheckboxFormat
                     onClick={(event) => selectFormat(event.target.value)}
-                    filterFormats={selectedFormat}
-                    onClick2={() => validFormat()}
-                    disabled={selectedFormat === ""}
+                    filterFormats={selectedFormat}                   
                 />
+                <ButtonValid disabled={selectedFormat === ""} text={"Valider"} onClick={() => validFormat()}/>
           </div>
             )}
         {format !== "" && name === "" && (
@@ -188,11 +192,16 @@ const NewDeck = () => {
                   <Pipeline style={{backgroundColor: '#5D3B8C', color: '#ffffff'}} text={"Nom"}/>
                   <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000' }} text={"Image"}/>
               </div>
-              <p >Nommez votre deck :</p>               
-              <input type="name" id="name" name="name" onChange={(e) => setSelectedName(e.target.value)}required/>
-              <button onClick={() => validName()} disabled={selectedName.length < 8 || selectedName.length > 15}>Valider</button>
+              <div className='name-container'>
+                  <InputName onChange={(e) => setSelectedName(e.target.value)} 
+                  onClick={() => validName()} disabled={selectedName.length < 8 || selectedName.length > 15}/>
+              </div>
+                  <ButtonValid disabled={selectedName.length < 8 || selectedName.length > 15} 
+                  text={"Valider"} onClick={() => validName()}/>
+              
+
           </div>
-          )}
+          )} 
         {name !== "" && image === "" && (
           <div className="image-group">
                 <div className='pipeline-container'>
@@ -201,16 +210,19 @@ const NewDeck = () => {
                     <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000'}} text={"Nom"}/>
                     <Pipeline style={{backgroundColor: '#5D3B8C', color: '#ffffff' }} text={"Image"}/>
                 </div>
-                <p>Ajoutez une image :</p>
-                <p>optionnel</p>
-                <button onClick={() => passImage()}>Passer</button>             
-                <button onClick={() => validImage()} disabled={selectedImage === ""}>Valider</button>
+                <div className='buttons-container'>
+                  <ButtonPass onClick={() => passImage()} text={"Passer"}/>             
+                  <ButtonValid disabled={selectedImage === ""} text={"Valider"} onClick={() => validImage()}/>
+                </div>
           </div>
           )}
+      
         {colors.length !== 0 && format !== "" && name !== "" && image !== "" && (
           <div className='card-deck'>
             <div className="new-deck">
-                    <img className="deck-img" src={image} alt="Deck mtg"/>
+                <div className="img-container">
+                    <img className="card-pp" src={image} alt="Deck mtg"/>
+                </div>
                         <div className="card-body" >
                           <div className='name-line'>
                             <h1 className="card-name"> {name} <ButtonModif onClick={() => returnName()} /></h1>

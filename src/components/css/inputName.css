@@ -1,0 +1,12 @@
+
+
+
+.input-name {
+    width: 80%;
+    height: 50px;  /* Augmente la hauteur du champ de recherche */
+    padding: 10px;  /* Ajoute de l'espace intérieur pour améliorer l'apparence */
+    font-size: 16px;  /* Agrandir la taille du texte pour correspondre à la hauteur */
+    border: 1px solid #ccc;
+
+
+}

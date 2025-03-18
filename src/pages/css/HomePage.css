@@ -3,7 +3,7 @@
 
 /* Top Cards */
 
-.title-cards {
+.title-cards, .title-decks {
     color : white;
     background-color:  #5D3B8C;
     margin-top: 5%;
@@ -23,8 +23,28 @@
     border-radius: 10px; /* Arrondi les coins de l'image */
 }
 
+.deck-img { 
+    width: 300px;   /* Définit la taille de l'image (ajustez selon vos besoins) */
+    height: 300px;  /* Assure que l'image soit carrée */
+    border-radius: 50%; /* Rend l'image circulaire */
+    object-fit: cover; /* L'image couvre l'espace sans être déformée */
+    cursor: pointer; /* Change le curseur en main lorsqu'on passe dessus */
+    border: 5px solid black; /* Ajoute une bordure blanche autour de l'image */
+    position: relative;
+}
+
+.deck-links {  
+    background-color: #5D3B8C;
+    color: white;
+    border-radius: 20px;
+    padding: 0.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 /* Styles pour les détails des cartes */
-.card-details {
+.card-details, .deck-details {
     display: flex;
     flex-direction: column; /* Aligne les éléments verticalement */
     justify-content: center;  /* Centre les éléments verticalement */
@@ -33,14 +53,14 @@
     margin: 10px;
 }
 
-.card-likeNumber {
+.card-likeNumber, .deck-likeNumber {
     background-color: white;
     color: black;
     border-radius: 15px;
     padding: 5%;
 }
 
-.top-cards {
+.top-cards, .top-decks {
     display: flex;
     justify-content: center; /* Centre les cartes sur l'écran */
     flex-wrap: wrap; /* Permet aux cartes de se réorganiser si nécessaire */
@@ -49,31 +69,31 @@
 
 /* Media query pour les écrans de 768px et moins (tablettes et mobiles) */
 @media (max-width: 768px) {
-    .top-cards {
+    .top-cards, .top-decks {
         flex-direction: column; /* Aligne les cartes en colonne sur les petits écrans */
         align-items: center; /* Centre les cartes */
     }
 
-    .card-img {
+    .card-img, .deck-img {
         max-width: 90%; /* Réduit la taille de l'image à 90% de son conteneur */
     }
 
-    .card-details {
+    .card-details, .deck-details {
         padding: 10px; /* Réduit l'espace autour des cartes */
     }
 }
 
 /* Media query pour les écrans de 480px et moins (mobiles très petits) */
 @media (max-width: 480px) {
-    .title-cards {
+    .title-cards, .title-decks {
         width: 50%;
     }
     
-    .card-img {
+    .card-img, .deck-img {
         max-width: 70%; /* Les images prennent toute la largeur sur les petits écrans */
     }
 
-    .top-cards {
+    .top-cards, .top-decks {
         gap: 15px; /* Réduit l'espacement entre les cartes */
     }
 }

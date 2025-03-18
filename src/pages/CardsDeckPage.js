@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CgAdd  } from "react-icons/cg";
+import { CgAdd, CgCloseO   } from "react-icons/cg";
 import Section from '../components/section';
 import SearchBar from '../components/searchBar';
 import InputValue from '../components/inputValue';
@@ -25,10 +25,11 @@ const CardsDeckPage = () => {
     const [cards, setCards] = React.useState([])
     const [detailsCard, setDetailsCard] = React.useState(null)
     const navigate = useNavigate();
-    const id = 10;
+    const location = useLocation();
+    const id = location.state?.deckID;
     const [deck, setDeck] = React.useState([])
-    const [format, setFormat] = React.useState([])
     const [colors, setColors] = React.useState([])
+    const [format, setFormat] = React.useState([])
 
     // Renvoie les attributs du deck sélectionné 
     useEffect(() => {
@@ -39,8 +40,8 @@ const CardsDeckPage = () => {
                 const response = request.data
     
                     setDeck(response)
-                    setFormat(response.format)
                     setColors(response.colors)
+                    setFormat(response.format)
 
 
             }   
@@ -67,13 +68,13 @@ const CardsDeckPage = () => {
  
         // L'appel asynchrone doit obligatoirement etre fait à l'intérieur de useEffect
         const getCards = async () => {
-            try {
+            try { 
 
                 // Contient les RequestParams de la requete
                 const params = {
+                    DeckID : id,
                     name: filterName,
-                    colors: colors,
-                    formats: format,
+                    colorFilter: filterColors,
                     rarities : filterRarities,
                     valueMin : inputValueMin,
                     valueMax : inputValueMax,
@@ -84,13 +85,13 @@ const CardsDeckPage = () => {
                     legendary : filterLegendary
                 };
                 
-                const response = await axios.get('http://localhost:8080/f_all/getCards', {params} );
+                const response = await axios.get('http://localhost:8080/f_all/getCardsForDeck', {params} );
                 
                 const listCards = response.data.map(
                         card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
                                         card.colors, card.type, card.rarity, card.edition, card.decks 
                 ) )                
-                    
+                 
                 setCards(listCards)
             }   
             catch (error) {
@@ -101,7 +102,7 @@ const CardsDeckPage = () => {
         }
         React.useEffect(() => {
           getCards();
-      }, [filterName, inputValueMin, inputValueMax, inputManaCostMin, inputManaCostMax,
+      }, [id, filterName, inputValueMin, inputValueMax, inputManaCostMin, inputManaCostMax,
          filterColors, filterRarities, filterEditions, filterTypes, filterLegendary]);
 
 
@@ -118,10 +119,11 @@ const CardsDeckPage = () => {
         
         // Filtre colors
         const selectColors = (newColor) => {
-            setColors(prevColors => {
+          console.log(filterColors)
+          setFilterColors(prevColors => {
               const colorsArray = Array.isArray(prevColors) ? prevColors : (prevColors || '').split(',').filter(color => color.trim() !== '');
               if (colorsArray.includes(newColor)) {
-                return colorsArray.filter(color => color !== newColor).join(',');
+                return colorsArray.filter(filterColor => filterColor !== newColor).join(',');
               } else {
                 return [...colorsArray, newColor].join(',');                 
               }
@@ -215,30 +217,57 @@ const CardsDeckPage = () => {
         const [cardsSelected, setCardsSelected] = React.useState([])
 
         const addCard = (newCard) => {
-            setCardsSelected(prevCards => {
-            const cardsArray = Array.isArray(prevCards) ? prevCards : (prevCards || '').split(',').filter(card => card.trim() !== '');
-            if (cardsArray.includes(newCard)) {
-              return cardsArray.filter(card => card !== newCard).join(',');
+          setCardsSelected((prevCards) => {
+            if (prevCards.some((card) => card.id === newCard.id)) {
+              // Si la carte est déjà dans la sélection, on la retire
+              return prevCards.filter((card) => card.id !== newCard.id);
             } else {
-              return [...cardsArray, newCard].join(',');                  
+              // Sinon, on ajoute la carte à la sélection
+              return [...prevCards, newCard];
             }
           });
         };
 
+        const changeIcon = (id) => {
+          const cardIds = cardsSelected.map(card => card.id);
+          if(!cardIds.includes(id)) {
+                          return <CgAdd/>
+                          }
+                          else {
+                              return <CgCloseO color='white'/>
+                          } 
+        } 
+
+        const changeBgColor = (id) => {
+          const cardIds = cardsSelected.map(card => card.id);
+          if(!cardIds.includes(id)) {
+                          return 'white'
+                          }
+                          else {
+                              return '#5D3B8C'
+                          }
+        }
+                          
+
         
 
-        const addCards = async () => {
+        const addCards = async () => { 
             try { 
 
-                const cardIds = cardsSelected.map(card => card.id);
+                const cardIds = cardsSelected.map(card => card.id).join(',');
 
-                const response = await axios.post(`http://localhost:8080/f_user/addCardOnDeck?cardId=${cardIds}&deckId=${id}` );
+                const response = await axios.post(`http://localhost:8080/f_user/addCardsOnDeck?cardId=${cardIds}&deckId=${id}`);
+                alert("carte " + cardIds + " ajoutées" );
+                const data = id
+                navigate(`/deckbuilding`, { state: { deckID: data }})
                 
                  }   
             catch (error) {
-                console.log(error);
+                console.log(error); 
             }
-        }         
+        } 
+        
+        
     
  
 
@@ -257,7 +286,8 @@ const CardsDeckPage = () => {
             <div className="filters">
             <div className="checkbox-colors">
                 {colors.map(color => (
-                <li><input type="checkbox" name={"nom"+ color} value={color} onClick={(event) => selectColors(event.target.value)} checked={filterColors}/>
+                <li><input type="checkbox" name={"nom"+ color} value={color} onClick={(event) => selectColors(event.target.value)} 
+                checked={filterColors.includes(color)}/>
                 <img src={getColorPics(color)} className="color-img" alt={color}/></li>
                 ))}
             </div>
@@ -279,7 +309,9 @@ const CardsDeckPage = () => {
                       <img className="card-img" src={card.image} alt="Card-image" onClick={() => chooseCard(card.id)} 
                       onMouseEnter={() => hoveredCard(card.id, card.name, card.type, card.text) } onMouseOut={() => hoveredCard() } />
                       <strong className="card-name"> {card.name} </strong>
-                      <AddButton onClick={() => addCard(card.id)} icon={<CgAdd />}/>
+                                         
+                      <AddButton onClick={() => addCard(card)} style={{ backgroundColor: changeBgColor(card.id) }}
+                       icon={changeIcon(card.id)}/>
 
 
                   {detailsCard && detailsCard.id === card.id && (
@@ -295,7 +327,7 @@ const CardsDeckPage = () => {
                           </div>
                       </div>
                   </div>
-                  )}
+                  )} 
               </div>
               ))}
               <button className='add-cards-button' onClick={() => addCards()} disabled={cardsSelected.length === 0}>

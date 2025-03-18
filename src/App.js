@@ -1,9 +1,10 @@
 import './App.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+// Pages User
 import LayoutUser from './layouts/layoutUser';
 import LayoutAdmin from './layouts/layoutAdmin';
 import HomePage from './pages/HomePage';
 import SignPage from './pages/SignPage';
-import LogPage from './pages/LogPage';
 import AccountPage from './pages/AccountPage';
 import CardsPage from './pages/CardsPage';
 import CardSelected from './pages/CardSelected';
@@ -12,8 +13,10 @@ import DeckSelected from './pages/DeckSelected';
 import Deckbuilding from './pages/Deckbuilding';
 import CardsDeckPage from './pages/CardsDeckPage';
 import UsersPage from './pages/UserPage';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import NewDeck from './pages/NewDeck';
+// Pages admin
+import NewCard from './pages/NewCard';
+import UsersList from './pages/UsersList'; 
 
 // On réalise une function qui fonctione avec le Router de React
 
@@ -25,8 +28,6 @@ const Router = createBrowserRouter([
       element : <HomePage/>},
     {path:"/sign",
       element : <SignPage/>}, 
-    {path: "/log",
-      element: <LogPage/>},
       {path: "/myspace",
         element: <AccountPage/>},
     {path: "/cards",
@@ -49,8 +50,15 @@ const Router = createBrowserRouter([
   },
 
 
-  {path:"/admin",
-    element : <LayoutAdmin/>}
+  {path:"/admin", 
+    element : <LayoutAdmin/>,
+    children: 
+  [
+    {path:"admin/", element : <HomePage/>},
+    {path:"admin/addCard", element : <NewCard/>},
+    {path:"admin/users", element : <UsersList/>}   
+    ]
+    }
 ])
 
 

@@ -1,4 +1,4 @@
-import "./css/filterColor.css"
+import "./css/checkboxFormat.css"
 import React from 'react';
 import { useEffect } from 'react';
 import axios from "axios";
@@ -25,18 +25,17 @@ const CheckboxFormat = function (props) {
             }
         }
         getFormats();
-        }, [formats]);
+        }, [formats]); 
 
 
     return (
-    <div className="checkbox-formats">
-     {formats.map(format => (
-       <li><input type="checkbox" name={"nom"+ format} value={format} onClick={props.onClick} 
-       checked={props.filterFormats.includes(format)}/>
-       {format}</li>
-    ))}
-     <button onClick={props.onClick2} disabled={props.disabled}>Valider</button>
-    </div>
+        <div className="checkbox-container">
+            {formats.map(format => (
+            <li><input type="checkbox" name={"nom"+ format} value={format} onClick={props.onClick} 
+            checked={props.filterFormats.includes(format)}/>
+            {format}</li>
+            ))}
+        </div>
 
     )
 }

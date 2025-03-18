@@ -3,7 +3,7 @@ class Card {
         colors, type, legendary, rarity, edition, deckBuilders, decks,
          decksCommander, likeNumber, deckNumber, commanderNumber) {
         this.id = id;
-		this.name = name;
+		this.name = name; 
 		this.text = text;
 		this.image = image;
 		this.manaCost = manaCost;

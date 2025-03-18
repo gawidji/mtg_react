@@ -2,7 +2,6 @@
     display: flex;
     justify-content: space-between; /* Espace entre les deux éléments */
     align-items: center; /* Aligne verticalement les éléments au centre */
-    width: 100%; /* Assure que le bouton occupe toute la largeur disponible */
     border: 5px;
   }
   
@@ -14,4 +13,4 @@
   .button-icon {
     margin-left: 10px; /* Ajoute un petit espace entre le texte et l'icône */
   }
-  
+   

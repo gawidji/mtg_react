@@ -52,22 +52,17 @@ const FilterColor = function (props) {
             }
            
         };
-
-    return (
-    <div className="checkbox-colors">
+ 
+    return ( 
+    <div className="filter-colors">
      {colors.map(color => (
        <li><input type="checkbox" name={"nom"+ color} value={color} onClick={props.onClick} checked={props.filterColors.includes(color)}/>
-       <img src={getColorPics(color)} className="color-img" alt={color}/></li>
+       <img src={getColorPics(color)} className="filter-color-img" alt={color}/></li>
     ))}
     <button onClick={props.onPush}>{props.text}</button>
     </div>
 
     )
 }
-/*
-<li><input type="checkbox" name={"fullColors"} onClick={props.Reset} checked={props.filterColors.length === 0}/> 
-        <p>Toutes les couleurs</p>
-        </li>
-*/
 
 export default FilterColor

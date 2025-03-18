@@ -1,7 +1,7 @@
 .card-section {
     display: grid;
     margin: 30px;
-    grid-template-columns: repeat(10, 1fr); /* 5 images par ligne */
+    grid-template-columns: repeat(6, 1fr); /* 5 images par ligne */
     grid-template-rows: repeat(6, 1fr);    /* 3 lignes d'images */
     gap: 10px;                            /* Espacement entre les images */
     width: 100vw;                         /* Utilisation de toute la largeur de l'écran */

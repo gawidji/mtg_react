@@ -42,15 +42,17 @@
     }
 
   .deck-container {
-    display: flex;
-    justify-content: center;
     width: 25%;
-    margin-left: 75%;
-    background-color: gray;
     padding-top: 2.5%;
     padding-bottom: 2.5%;
+    border-radius : 30px;
+    position : absolute;
+    margin-left: 75%;
+
+    
   }
-  .deck-card{
+
+  .deck-card-name{
     background-color: #1B1D40;
     color: white;
     display: flex;

@@ -11,8 +11,10 @@ import CheckboxRarity from '../components/filterRarity';
 import CheckboxEdition from '../components/filterEdition';
 import CheckboxType from '../components/filterType';
 import CheckboxLegendary from '../components/filterLegendary';
+import OpenButton from '../components/openButton'
 import Card from '../model/Card';
 import axios from "axios";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import "./css/DatasPage.css";
 
 const CardsPage = () => {
@@ -64,7 +66,8 @@ const CardsPage = () => {
                         card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
                                         card.colors, card.type, card.rarity, card.edition, card.decks 
                 ) )                
-                    
+                console.log(response)
+
                 setCards(listCards)
             }   
             catch (error) {
@@ -89,8 +92,39 @@ const CardsPage = () => {
          setDetailsCard({ id, name, type, text });
 
           }
+
+
+
+          // Filtre valeur
+        
+          const [arrowValueSens, setArrowValueSens] = React.useState(<SlArrowDown/>)
+          const [displayFilterValue, setDisplayFilterValue] = React.useState(false)
+            
+          const OpenFilterValue = () => {
+              setArrowValueSens((prevIcon) => (prevIcon.type === SlArrowDown ? <SlArrowUp/> : <SlArrowDown/>));    
+              setDisplayFilterValue(!displayFilterValue)
+          }
+            
+          // Filtre cout en mana
+            
+          const [arrowManaCostSens, setArrowManaCostSens] = React.useState(<SlArrowDown/>)
+          const [displayFilterManaCost, setDisplayFilterManaCost] = React.useState(false)
+            
+          const OpenFilterManaCost = () => {
+              setArrowManaCostSens((prevIcon) => (prevIcon.type === SlArrowDown ? <SlArrowUp/> : <SlArrowDown/>));    
+              setDisplayFilterManaCost(!displayFilterManaCost)
+          }
         
         // Filtre colors
+        
+        const [arrowColorSens, setArrowColorSens] = React.useState(<SlArrowDown/>)
+                 const [displayFilterColors, setDisplayFilterColors] = React.useState(false)
+        
+        const OpenFilterColor = () => {
+              setArrowColorSens((prevIcon) => (prevIcon.type === SlArrowDown ? <SlArrowUp/> : <SlArrowDown/>));    
+              setDisplayFilterColors(!displayFilterColors) 
+        } 
+
         const selectColors = (newColor) => {
             setFilterColors(prevColors => {
               const colorsArray = Array.isArray(prevColors) ? prevColors : (prevColors || '').split(',').filter(color => color.trim() !== '');
@@ -107,6 +141,15 @@ const CardsPage = () => {
           }   
           
           // Filtre formats
+
+          const [arrowFormatSens, setArrowFormatSens] = React.useState(<SlArrowDown/>)
+          const [displayFilterFormats, setDisplayFilterFormats] = React.useState(false)
+          
+          const OpenFilterFormat = () => {
+                setArrowFormatSens((prevIcon) => (prevIcon.type === SlArrowDown ? <SlArrowUp/> : <SlArrowDown/>));    
+                setDisplayFilterFormats(!displayFilterFormats)                     
+                 }
+
           const selectFormats = (newFormat) => {
             setFilterFormats(prevFormats => {
               const formatsArray = Array.isArray(prevFormats) ? prevFormats : (prevFormats || '').split(',').filter(format => format.trim() !== '');
@@ -123,6 +166,15 @@ const CardsPage = () => {
 
 
           // Filtre raretés
+
+          const [arrowRaritySens, setArrowRaritySens] = React.useState(<SlArrowDown/>)
+          const [displayFilterRarities, setDisplayFilterRarities] = React.useState(false)
+          
+          const OpenFilterRarity = () => {
+                setArrowRaritySens((prevIcon) => (prevIcon.type === SlArrowDown ? <SlArrowUp/> : <SlArrowDown/>));    
+                setDisplayFilterRarities(!displayFilterRarities)                     
+                 }
+
           const selectRarities = (newRarity) => {
             setFilterRarities(prevRarities => {
               const raritiesArray = Array.isArray(prevRarities) ? prevRarities : (prevRarities || '').split(',').filter(rarity => rarity.trim() !== '');
@@ -138,6 +190,15 @@ const CardsPage = () => {
           } 
 
         // Filtre editions
+
+        const [arrowEditionSens, setArrowEditionSens] = React.useState(<SlArrowDown/>)
+          const [displayFilterEditions, setDisplayFilterEditions] = React.useState(false)
+          
+          const OpenFilterEdition = () => {
+                setArrowEditionSens((prevIcon) => (prevIcon.type === SlArrowDown ? <SlArrowUp/> : <SlArrowDown/>));    
+                setDisplayFilterEditions(!displayFilterEditions)                     
+                 }
+
         const selectEditions = (newEdition) => {
           setFilterEditions(prevEditions => {
             const editionsArray = Array.isArray(prevEditions) ? prevEditions : (prevEditions || '').split(',').filter(edition => edition.trim() !== '');
@@ -153,7 +214,16 @@ const CardsPage = () => {
         } 
 
          // Filtre types
-         const selectTypes = (newType) => {
+
+        const [arrowTypeSens, setArrowTypeSens] = React.useState(<SlArrowDown/>)
+        const [displayFilterTypes, setDisplayFilterTypes] = React.useState(false)
+          
+        const OpenFilterType = () => {
+                setArrowTypeSens((prevIcon) => (prevIcon.type === SlArrowDown ? <SlArrowUp/> : <SlArrowDown/>));    
+                setDisplayFilterTypes(!displayFilterTypes)                     
+                 }
+
+        const selectTypes = (newType) => {
             setFilterTypes(prevTypes => {
             const typesArray = Array.isArray(prevTypes) ? prevTypes : (prevTypes || '').split(',').filter(type => type.trim() !== '');
             if (typesArray.includes(newType)) {
@@ -184,6 +254,18 @@ const CardsPage = () => {
             <Section className="section">
 
             <SearchBar  onChange={(event) => (setFilterName(event.target.value))}/>
+
+            <div className='open-buttons'>
+              <OpenButton text="Filtrer par valeur €" onClick={OpenFilterValue} icon={arrowValueSens} width="20%"/>
+              <OpenButton text="Filtrer par cout de mana" onClick={OpenFilterManaCost} icon={arrowManaCostSens} width="20%"/>
+              <OpenButton text="Filtrer par couleur" onClick={OpenFilterColor} icon={arrowColorSens} width="20%"/>
+              <OpenButton text="Filtrer par format" onClick={OpenFilterFormat} icon={arrowFormatSens} width="20%"/>
+              <OpenButton text="Filtrer par type" onClick={OpenFilterType} icon={arrowTypeSens} width="20%"/>
+              <OpenButton text="Filtrer par rareté" onClick={OpenFilterRarity} icon={arrowRaritySens} width="20%"/>
+              <OpenButton text="Filtrer par édition" onClick={OpenFilterEdition} icon={arrowEditionSens} width="20%"/>
+            </div>
+
+
             <p className="titleValue">Valeur (€)</p>
             <InputValue onChange={(event) => (setInputValueMin(event.target.value))} placeholder={"min"}/>
             <InputValue onChange={(event) => (setInputValueMax(event.target.value))} placeholder={"max"}/>

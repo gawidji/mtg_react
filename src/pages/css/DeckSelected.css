@@ -1,8 +1,3 @@
-
-p{
-    color: white;
-}
-
 .card {
     display: flex;
     flex-direction: row;
@@ -10,17 +5,29 @@ p{
     margin-left: 30%;
 }
 
+/* Ajouter des marges pour l'image dans la carte */
 .deck-img {
-    height: 500px;
-    width: auto;
-    display: flex;
-    justify-content: center;
+    position: relative;
+    margin: 20px; 
 }
 
-.card-text, .card-name{
+/* Style du numéro de la carte */
+.numberCard {
+    color: white;
+    background-color: grey;
+    border-radius: 50%;
+    padding: 1%;
+    position: absolute;
+    margin-top: 15%; 
+    margin-left: 12%;
+}
+
+/* Styles du texte et du nom de la carte */
+.card-text, .card-name {
     color: black;
 }
 
+/* Styles des formats et de la rareté */
 .card-format, .card-rarity {
     display: inline-block;
     color: white;
@@ -29,14 +36,17 @@ p{
     border-radius: 5px;
 }
 
+/* Ligne de rareté */
 .rarity-line {
     display: flex;
     flex-direction: row;
 }
+
 .rarity {
     margin-top: 4px;
 }
 
+/* Style de la section des couleurs */
 .color {
     margin-top: 20px;
 }
@@ -52,20 +62,26 @@ p{
     margin-top: 5px;
 }
 
+/* Style du conteneur du bouton "like" */
 .likeButton-container {
     display: flex;
     justify-content: center;
-
+    position: relative;
+    margin-top: 14%;
 }
 
+/* Style pour les boutons de navigation */
 .button-navig {
     display: flex;
     justify-content: space-between;
     margin: 5px;
+    position: relative;
+    margin-top: -18%;
 }
 
+/* Style des boutons lors du survol */
 button:hover {
     outline: none;
     background-color: #5D3B8C;
-     color : white;
+    color: white;
 }

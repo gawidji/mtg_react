@@ -1,0 +1,17 @@
+.addButton {
+    border-radius: 50%; 
+    width: 40px;                  /* Largeur du bouton (ajustez la taille selon vos besoins) */
+    height: 40px;         
+}
+
+.addButton :hover {
+    color: #5D3B8C;
+}
+
+.addButton .icon {
+    position: absolute;           /* Permet de positionner l'icône à l'intérieur du bouton */
+    top: 50%;                     /* Centre verticalement (50% de la hauteur du bouton) */
+    left: 50%;                    /* Centre horizontalement (50% de la largeur du bouton) */
+    transform: translate(-50%, -50%);
+  font-size: 2rem;   /* Agrandit la taille de l'icône */
+} 

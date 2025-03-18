@@ -241,7 +241,7 @@ const AccountPage = () => {
                             </button>
                         </div>
                 <div className="openButtons-container">
-                < OpenButton text="Mes decks" onClick={DisplayDecks} icon={arrowSens}/>
+                < OpenButton text="Mes decks" onClick={DisplayDecks} icon={arrowSens} width="100%"/>
                     {arrowUp === true && 
                     <div className='card-section'>
                     {decks.map(deck => ( 
@@ -275,7 +275,7 @@ const AccountPage = () => {
                     }
 
 
-                < OpenButton text="Mes cartes likées" onClick={DisplayCardsLiked} icon={arrowSens2}/>
+                < OpenButton text="Mes cartes likées" onClick={DisplayCardsLiked} icon={arrowSens2} width="100%"/>
                         {arrowUp2 === true &&
                         <div className='card-section'>
 
@@ -305,7 +305,7 @@ const AccountPage = () => {
                 </div> 
                 }
 
-            < OpenButton text="Mes decks likés" onClick={DisplayDecksLiked} icon={arrowSens3}/>
+            < OpenButton text="Mes decks likés" onClick={DisplayDecksLiked} icon={arrowSens3} width="100%"/>
                 
                 {arrowUp3 === true && 
                 <div className='card-section'>

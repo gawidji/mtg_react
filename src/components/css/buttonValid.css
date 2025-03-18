@@ -1,0 +1,23 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button-valid{
+    background-color: #5D3B8C; 
+    color: white;
+    margin-top: 10%; 
+    display: flex;
+    justify-content: center;
+    border-radius: 30px;
+    width: 200px;
+    font-size: 20px;  /* Agrandir la taille du texte */
+    
+}
+
+.button-valid:disabled {
+    background-color: white;  /* Couleur de fond quand il est désactivé */
+    color: black;  /* Couleur du texte quand il est désactivé */
+    cursor: not-allowed;  /* Pour indiquer que l'élément n'est pas interactif */
+    opacity: 0.5;
+  }

@@ -1,7 +1,7 @@
 import "./css/checkboxColor.css"
 import React from 'react';
 import { useEffect } from 'react';
-import axios from "axios";
+import axios from "axios"; 
 import white from "../assets/white-mtg.png"
 import blue from "../assets/blue-mtg.png"
 import green from "../assets/green-mtg.png"
@@ -51,21 +51,18 @@ const CheckboxColor = function (props) {
                 return null
             }
            
-        };
+        }; 
 
        
 
-    return (
-    <div className="colors">
+    return ( 
         <div className="checkbox-colors">
             {colors.map(color => (
             <li><input type="checkbox" name={"nom"+ color} value={color} onClick={props.onClick} 
             checked={props.filterColors.includes(color)}/>
             <img src={getColorPics(color)} className="color-img" alt={color}/></li>
             ))}
-        </div>
-    <button onClick={props.onClick2} disabled={props.disabled}>Valider</button>
-    </div>
+        </div> 
 
     )
 }

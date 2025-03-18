@@ -1,0 +1,149 @@
+.deck-section {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 images par ligne */
+    grid-template-rows: repeat(6, 1fr);    /* 3 lignes d'images */
+    gap: 10px;                            /* Espacement entre les images */
+    width: 100vw;                         /* Utilisation de toute la largeur de l'écran */
+    height: 100vh;                        /* Utilisation de toute la hauteur de l'écran */
+  }
+
+  
+ 
+  .deck-pp { 
+    width: 150px;   /* Définit la taille de l'image (ajustez selon vos besoins) */
+    height: 150px;  /* Assure que l'image soit carrée */
+    border-radius: 50%; /* Rend l'image circulaire */
+    object-fit: cover;
+    cursor: pointer; /* Change le curseur en main lorsqu'on passe dessus */
+    border: 5px solid black; /* Ajoute une bordure blanche autour de l'image */
+    position: relative;
+}
+
+.value-filter, .manaCost-filter {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-value {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    border: 5px;
+    position: absolute;
+    margin-left: 5%;
+    width: 20%;
+
+}
+ 
+.value-filter {
+    max-width: 20%;
+}
+
+.input-value-container {
+    position: relative;
+    margin-left: 12%;
+    margin-top: 3%;
+    width: 70px;
+
+} 
+
+.button-manaCost {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    border: 5px;
+    position: absolute;
+    margin-left: 30%;
+    width: 20%;
+
+}
+
+.input-manaCost-container {
+    position: relative;
+    margin-left: 37%;
+    margin-top: 3%;
+    width: 50px;
+
+}
+
+.button-colors {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    border: 5px;
+    position: absolute;
+    margin-left: 55%;
+    width: 20%;
+
+}
+
+.checkbox-color-container {
+    position: relative;
+    margin-left: 52%;
+    margin-top: 3%;
+
+}
+
+
+.open-buttons {
+    display: none;  
+}
+/*
+.filters {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-value-container {
+    position: absolute;
+    left: 8%;
+    top: 32%;
+}
+
+.input-manaCost-container{
+    position: absolute;
+    left: 34%;
+    top: 32%;
+}
+
+.checkbox-color-container {
+    position: absolute;
+    left: 58%;
+    top: 32%;
+}
+
+.checkbox-format-container {
+    position: absolute;
+    left: 83%;
+    top: 32%;
+}
+*/
+
+.button-date, .button-top {
+    width: 12%;
+    position: relative;
+    left: 38%;
+    border-radius: 0%;
+    margin-top : 10px;
+    margin-bottom: 5px;
+
+}
+
+
+.container-mt-5 {
+    position: absolute;
+
+}
+.button-content {
+    margin-top: 10px;
+}
+
+

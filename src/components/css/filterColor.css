@@ -1,7 +1,8 @@
 
 
-.checkbox-colors {
-    width: 20%;
+.filter-colors {
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -11,11 +12,9 @@ li {
     align-items: center;
 }
 
-input {
-    width: 100px;
-}
 
-.color-img {
+
+.filter-color-img {
     height: 30px;
     width: auto;
     margin-top: 14px;

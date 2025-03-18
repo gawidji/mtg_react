@@ -39,10 +39,6 @@ const CheckboxFormat = function (props) {
 
     )
 }
-/*
-<li><input type="checkbox" name={"fullColors"} onClick={props.Reset} checked={props.filterColors.length === 0}/> 
-        <p>Toutes les couleurs</p>
-        </li>
-*/
+
 
 export default CheckboxFormat

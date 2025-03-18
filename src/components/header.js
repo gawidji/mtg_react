@@ -1,11 +1,15 @@
 import "./css/header.css"
 import LogoMTG from "../assets/LogoMTG.png"
+import { FiMenu } from "react-icons/fi";
 
-const Header = function (props) {
+
+const Header = function (props) { 
     return (
         <header className="header">
-            <img src={LogoMTG} alt="logo-mtg" />
-            <div>{props.child}</div>
+            <div className="menu"><FiMenu className="icon-menu" color="white"/></div>
+            <img src={LogoMTG} className="img" alt="logo-mtg"/>
+            <div className="nav-bar">{props.child}</div>
+            
         </header>
     )
 }

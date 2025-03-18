@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useParams,  useNavigate} from 'react-router-dom';
 import Section from '../components/section';
-import LikeButton from '../components/likeButton';
+import LikeButton from '../components/buttonIcon';
 import axios from "axios";
 import "./css/CardSelected.css";
 import white from "../assets/white-mtg.png"
@@ -79,7 +79,7 @@ const CardSelected = () => {
                 return 'rgba(0,0,0,255)'
             }
            
-        };
+        }; 
 
         // Affichage d'image correspondant aux couleurs de la carte
         const getColor = (value ) => {

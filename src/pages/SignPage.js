@@ -11,6 +11,12 @@ const SignPage = function () {
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const navigate = useNavigate();
+    const [existingCount, setExistingCount] = React.useState(true);
+
+    const switchForm = () => {
+        setExistingCount(prevState => !prevState);
+    }
 
     const validInput = () => {
         const newErrors = [];
@@ -30,43 +36,66 @@ const SignPage = function () {
     }
 
 
-    const onClickClear  = async (e) => { e.preventDefault(); console.log({pseudo, email, password});
-    setPseudo("");
-    setEmail("");
-    setPassword("");}
-    // se déclenche à l'envoie du form pour reset les champs en évitant un rechargement de la page
+    // Form Connexion
+    const logIn = async (e) => {
+        e.preventDefault();
+    
+            try{
+    
+                const user = {
+                    email,
+                    password
+                }
+                console.log(user)
+    
+                const response = await axios.post('http://localhost:8080/f_all/connexion', user);
+                // localStorage.setItem('user', JSON.stringify(response.data))
+    
+    
+                const jwt = response.data; 
+    
+                localStorage.setItem("authToken", jwt)
+    
+                alert("Connexion réussie");
+                navigate('/myspace')
+    
+            }catch (e) {
+                alert("Email ou mot de passe inccorect")
+            } 
+        }
 
-    const navigate = useNavigate();
-    // Permet d'appeler la méthode navigate pour e diriger vers une autre page
 
-    const handleSubmit = async (e) => {
+    // Form Inscription
+    const signUp = async (e) => {
         e.preventDefault();
 
         if (!validInput()) {
             return;  // Si des erreurs existent, on arrête l'envoi du formulaire
         }
 
-        // cette const contient un objet avec les memes valeurs que l'api, elle communique ainsi directement avec l'API
         const user = {
             pseudo,
             email,
-            password 
+            password  
         }
-
+ 
         console.log(user);
         
-        //On import l'url entré dans le fichier api 
-
         try{
             const response = await axios.post('http://localhost:8080/f_all/inscription', user);
             // localStorage.setItem('user', JSON.stringify(response.data))
-            alert("Enregistrement reussi");
-            navigate('/log')
+            setExistingCount(true)
 
-            console.log(response)
         }catch (e) {
             alert("Erreur 404")
-        } // L'alert affiche les données et un message reçu du serveur par la requete response
+        } 
+
+
+    const onClickClear  = async (e) => { e.preventDefault();
+                            setPseudo("");
+                            setEmail("");
+                            setPassword("");
+                        }
 
         
 
@@ -75,9 +104,29 @@ const SignPage = function () {
     
     return (
     <Section>
-        <img src={BanniereMTG} className="d-block w-100" alt="Image 1" />
+    <img src={BanniereMTG} className="d-block w-100" alt="Image 1" />
+    {existingCount && (
         <div className="login-container">
-        <form className="login-form" onSubmit={handleSubmit}> 
+        <form className="login-form" onSubmit={logIn}> 
+            <h2 className="p-log">Connexion</h2>
+            <div className="input-group">
+                <label >E-mail :</label>
+                <input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} required/>
+            </div>
+            <div className="input-group">
+                <label>Mot de passe :</label>
+                <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)}required/>
+            </div>
+            <div className="link-group">
+                <button type="submit">Se connecter</button>
+            </div>
+        </form>
+        <button className="nav-sign" onClick={()=>switchForm()}>S'inscrire</button>
+        </div>
+    )}
+    {!existingCount && (
+        <div className="login-container">
+        <form className="login-form" onSubmit={signUp}> 
             <h2 className="p-sign">Inscription</h2>
             <div className="input-group">
                 <label>Pseudo :</label>
@@ -95,7 +144,9 @@ const SignPage = function () {
                 <button type="submit">S'inscrire</button>
             </div>
         </form>
+        <button className="nav-sign" onClick={()=>switchForm()}>Se connecter</button>
         </div>
+        )}
     </Section>
     )
 }

@@ -1,4 +1,4 @@
-import "./css/inputValue.css"
+import "./css/inputNumber.css"
 import React from 'react';
 
 

@@ -1,10 +1,10 @@
-import "./css/likeButton.css"
+import "./css/addButton.css"
 
 const AddButton = function (props) {
     return (
-        <button className="addButton" onClick={props.onClick}>{props.icon}
+        <button className="addButton" style={props.style} onClick={props.onClick}>{props.icon}
         </button>
                 )
 }
 
-export default AddButton
+export default AddButton 

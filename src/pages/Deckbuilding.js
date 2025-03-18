@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useLocation ,  useNavigate} from 'react-router-dom';
 import "./css/Deckbuilding.css";
 import Section from '../components/section';
+import DeleteButton from '../components/buttonIcon';
 import AddButton from '../components/addButton';
 import SearchBar from '../components/searchBar';
 import InputValue from '../components/inputValue';
@@ -25,13 +26,15 @@ import blue_mana from "../assets/blue_mana.png"
 import green_mana from "../assets/green_mana.png"
 import red_mana from "../assets/red_mana.png"
 import black_mana from "../assets/black_mana.png"
-import { TiDeleteOutline } from "react-icons/ti";
+import background_deck from "../assets/background-deckbuilding.jpg"
+import { TiDeleteOutline } from "react-icons/ti"; 
 
 
 
  const Deckbuilding = () => {
 
        const location = useLocation();
+       const navigate = useNavigate();
        const id = location.state?.deckID; 
        const [deck, setDeck] = React.useState([])
        const [deckCards, setDeckCards] = React.useState([])
@@ -145,7 +148,7 @@ import { TiDeleteOutline } from "react-icons/ti";
             }
         }
 
-        // Ajouter un terrain
+        // Récupérer l'id du terrain
         const landColor = (value ) => {
             if(value === "BLANC") {
                 return "9"
@@ -168,6 +171,8 @@ import { TiDeleteOutline } from "react-icons/ti";
            
         };
 
+
+        // Ajouter un terrain
         const addLand = (value) => {
             addCard(landColor(value))
         }
@@ -183,12 +188,15 @@ import { TiDeleteOutline } from "react-icons/ti";
             }
         }
 
-        // Rechercher une carte dans la datebase
-
+        // Consultez les cartes
+        const navigateCards = () => {
+            const data = id
+            navigate(`/cardsDeck`, { state: { deckID: data }})
+        }
         
 
         
-        return (
+        return ( 
             <Section>
                 <div className="card-body" >
                             <h2 className="card-name"> {deck.name}</h2>                
@@ -212,22 +220,23 @@ import { TiDeleteOutline } from "react-icons/ti";
                               <img src={getImgColor(color)} className="mana-img-select" alt={color}/></button>                             
                            ))}
                 </div>
-                <button>Ajouter des cartes</button>
-                 <div className='deck-container'>
+                <button className='btn-add-card' onClick={()=>navigateCards()}>Ajouter des cartes</button>
+                 <div className='deck-container' style={{backgroundImage : `url(${background_deck})`, backgroundSize: '50%' }}>
                         {deckCards && deckCards.length > 0 && (
                             <div className='mappingDeckCard'>
                                   {deckCards.map((deckCard)  => (
-                                <div className='deck-card'>
-                                    <AddButton onClick={() => deleteCard(deckCard.id)} icon={<TiDeleteOutline />}/>
-                                    <p className='deck-card-name' key={deckCard.id}>{deckCard.name}</p>  
-                                </div>                           
+                                <div className='deck-container'>
+                                    <p className='deck-card-name' key={deckCard.id}>{deckCard.name}</p>   
+                                    <DeleteButton className= "deleteButton"  onClick={() => deleteCard(deckCard.id)} icon={<TiDeleteOutline/>}/>
+                                </div>     
                              ))}
                          </div>
                          )}    
-                </div>                
-            </Section>
+                </div>
+                                
+            </Section> 
         )
 
- }
+ } 
 
  export default Deckbuilding;

@@ -2,15 +2,16 @@
 
 
 @media (min-width: 768px) {
-    .new-deck {
-        width: 30%; 
-        border-radius: 10px; 
-        overflow: hidden; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-        background-color: #fff; 
-        transition: transform 0.3s ease, box-shadow 0.3s ease; 
-        margin-right: 35%; 
+
+    .card-deck {
+      margin-left: 35%;
+      margin-top : 40px;
+      width: 30%;
+      height : 50%;
+      border-radius: 10px;
+      
     }
+
 
     .pipeline-container {
       display: flex; 
@@ -21,25 +22,58 @@
     .pipeline-container .pipeline {
       margin-top: 40px;
     }
+
+    .color-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10%;
+    }
+    .name-container {
+      align-items: start;
+      margin-top: 10%;
+      margin-left: 20%;
+
+    }
+
+    .buttons-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+    }
  
 }
 
-@media (min-width: 480px) {  
+@media (max-width: 480px) {
+  
+  .card-deck {
+    margin-left: 5%;
+    margin-top: 15%;
+    width: 90%;
+  }
 
-    .new-deck {
-        width: 90%; /* Largeur fixe */
-        border-radius: 10px; /* Coins arrondis */
-        overflow: hidden; /* Pour que l'image respecte les coins arrondis */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
-        background-color: #fff; /* Fond blanc */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation au survol */
-        margin-right: 35%; 
-    }
     .color-line, .name-line {
         display: flex;
         flex-direction: column;
     }
 
+    .pipeline-container {
+      display: flex; 
+      flex-direction: row;
+      margin-top: 40px;
+      
+    }
+
+}
+
+.new-deck {
+  border-radius: 10px; 
+  overflow: hidden; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  background-color: #fff; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #000000;      
+  
 }
 
   
@@ -48,17 +82,30 @@
     transform: translateY(-5px); /* Légère élévation */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
   }
+
+  .img-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
   
   /* Style de l'image */
-  .deck-img {
-    width: 100%;
+  .card-pp { 
+    width: 50%;
     height: 200px;
+    border-radius: 50%;
     object-fit: cover; /* Pour que l'image couvre bien l'espace */
+    border: 5px solid #000000;
   }
   
   /* Style du contenu */
   .card-body {
-    padding: 20px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100%;
+    
   }
   
   /* Style du titre */
@@ -75,8 +122,7 @@
     display: flex;
     align-items: center;
     gap: 10px; /* Espacement entre les éléments */
-    margin-bottom: 10px;
-    
+    margin-bottom: 10px;    
   }
 
   .name-line{
