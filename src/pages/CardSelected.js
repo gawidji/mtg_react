@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useParams,  useNavigate} from 'react-router-dom';
 import Section from '../components/section';
-import LikeButton from '../components/buttonIcon';
+import IconButton from '../components/buttonIcon';
 import axios from "axios";
 import "./css/CardSelected.css";
 import white from "../assets/white-mtg.png"
@@ -12,7 +12,7 @@ import red from "../assets/red-mtg.png"
 import black from "../assets/black-mtg.png"
 import Card from '../model/Card';
 import { FaHeart, FaRegHeart  } from 'react-icons/fa';
-
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
    
 
@@ -79,7 +79,7 @@ const CardSelected = () => {
                 return 'rgba(0,0,0,255)'
             }
            
-        }; 
+        };  
 
         // Affichage d'image correspondant aux couleurs de la carte
         const getColor = (value ) => {
@@ -194,10 +194,10 @@ const CardSelected = () => {
 
             const hearthIcon = () => {
                 if(!cardLikedId.some(cardId => cardId === (id))) {
-                    return (<FaRegHeart size="2em" />)
+                    return (<FaRegHeart size="3em" />)
                 }
                 else {
-                    return (<FaHeart size="2em" color="red"/>)
+                    return (<FaHeart size="3em" color="red"/>)
                 }
             }
 
@@ -235,11 +235,14 @@ const CardSelected = () => {
                         </div>
                     </div>  
                 <div className='button-navig'>
-                    <button onClick={() => prevCard()} > Carte précédente</button>
-                    <button onClick={() => nextCard()}> Carte suivante</button>
+                    <IconButton onClick={() => prevCard()} style={{ width: '100px', height: '100px' }} 
+                     icon=<IoIosArrowBack size="3em" /> />
+                    <IconButton onClick={() => nextCard()} style={{ width: '100px', height: '100px' }}
+                     icon=<IoIosArrowForward size="3em" /> />
                  </div>
                 <div className="likeButton-container">
-                    <LikeButton className= "likeButton" onClick={likeDislike} icon={hearthIcon()}/>
+                    <IconButton className= "likeButton" onClick={likeDislike} style={{ width: '100px', height: '100px' }} 
+                    icon={hearthIcon()}/>
                 </div>                                  
                              
             </Section>

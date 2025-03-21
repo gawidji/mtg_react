@@ -4,18 +4,20 @@ import { useParams,  useNavigate} from 'react-router-dom';
 import axios from "axios";
 import Section from '../components/section';
 import OpenButton from '../components/openButton'
+import IconButton from '../components/buttonIcon'
+import ButtonModif from '../components/buttonModif';
 import Deck from '../model/Deck';
 import Card from '../model/Card';
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
-import { FaHeart  } from 'react-icons/fa';
+import { FaHeart, FaRegHeart  } from 'react-icons/fa';
 import { FaPlus } from "react-icons/fa6";
-import "./css/AccountPage.css"
+import "./css/AccountPage.css" 
 
 
 
+ 
 
-
-const AccountPage = () => {
+const AccountPage = () => { 
     const [deckBuilder, setDeckBuilder] = React.useState([])
     const navigate = useNavigate();
     const token = localStorage.getItem('authToken');
@@ -103,8 +105,8 @@ const AccountPage = () => {
                     setDetailsDeck({ id, name, format });
                 }
 
-                const newDeck = () => {
-                    navigate(`/newDeck`)
+                const newDeck = (id) => {
+                    navigate(`/deckbuilding`, { state: { deckID: id }})
                          };
              
                 // Afficher les cartes likées
@@ -165,6 +167,7 @@ const AccountPage = () => {
         const [decksLiked, setDecksLiked] = React.useState( [] )
         const [detailsDeckLiked, setDetailsDeckLiked] = React.useState(null)
         
+        
         const getDecksLiked = async () => {
             try {
                 const config = {
@@ -181,8 +184,7 @@ const AccountPage = () => {
                         deck.deckBuilderName, deck.likeNumber, deck.cards, deck.commander
             ) )
     
-            setDecksLiked(response)
-                   
+            setDecksLiked(response)                   
 
             }   
             catch (error) {
@@ -203,6 +205,27 @@ const AccountPage = () => {
             }
         
         }
+
+        // Méthode disliker un deck
+        
+
+        const dislikeDeck = async (id) => {
+            try {
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    };
+
+               await axios.delete(`http://localhost:8080/f_user/dislikeDeck?deckId=${id}`, config);          
+               
+                }   
+            catch (error) {
+                console.log(error);
+            }
+        };
+
 
 
         const chooseDeck = (id) => {
@@ -249,10 +272,8 @@ const AccountPage = () => {
                             <img className="deck-pp" src={deck.image} alt="Deck avatar"
                             onMouseEnter={() => hoveredDeck(deck.id, deck.name, deck.format) } onMouseOut={() => hoveredDeck()}/>
                             <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
-                                <FaHeart color="red"/>
                             </div>
                             <strong className="deck-name"> {deck.name} </strong>
-                            <strong className="deck-db"> by {deck.deckBuilderName} </strong>
 
                             {detailsDeck && detailsDeck.id === deck.id && (
                                     <div className="container-mt-5" >
@@ -266,8 +287,8 @@ const AccountPage = () => {
                                         </div>
                                     </div>
                                     )}
-                            <button className="new-deck" onClick={() => newDeck()}><FaPlus /></button>
-                        </div>
+                            <ButtonModif onClick={() => newDeck(deck.id)} />
+                        </div> 
                 
                     ))}
                     
@@ -312,12 +333,13 @@ const AccountPage = () => {
                 {decksLiked.map(deck => ( 
                     <div className="deck-details"  key={deck.id}>
                         <img className="deck-pp" src={deck.image} alt="Deck avatar" onClick={() => chooseDeck(deck.id)}
-                        onMouseEnter={() => hoveredDeckLiked(deck.id, deck.name, deck.format) } onMouseOut={() => hoveredDeckLiked()}/>
-                        <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
-                            <FaHeart color="red"/>
-                         </div>
+                        onMouseEnter={() => hoveredDeckLiked(deck.id, deck.name, deck.format)} onMouseOut={() => hoveredDeckLiked()}/>
+                        
                         <strong className="deck-name"> {deck.name} </strong>
                         <strong className="deck-db"> by {deck.deckBuilderName} </strong>
+                        <FaHeart size="2em" color="red" onClick={()=>dislikeDeck(deck.id)}/>
+                        
+
 
                         {detailsDeckLiked && detailsDeckLiked.id === deck.id && (
                                 <div className="container-mt-5" >

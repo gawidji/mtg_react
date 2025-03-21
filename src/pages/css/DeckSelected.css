@@ -27,6 +27,10 @@
     color: black;
 }
 
+.card-name {
+    
+}
+
 /* Styles des formats et de la rareté */
 .card-format, .card-rarity {
     display: inline-block;

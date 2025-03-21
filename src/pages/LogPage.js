@@ -51,7 +51,7 @@ const handleSubmit = async (e) => {
             <div className="input-group">
                 <label >E-mail :</label>
                 <input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} required/>
-            </div>
+            </div> 
             <div className="input-group">
                 <label>Mot de passe :</label>
                 <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)}required/>

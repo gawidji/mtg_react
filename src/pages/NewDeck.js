@@ -70,6 +70,19 @@ const NewDeck = () => {
         setName(selectedName)
       }
 
+      // Choix image
+      const selectImage = (event) => {
+        const file = event.target.files[0];
+       
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setSelectedImage(reader.result); // Stocke l'image en Base64
+          };
+          reader.readAsDataURL(file); // Convertit le fichier en Base64
+        }
+      }
+
       // Passer image
       const passImage = () => {
         setImage(defaultImg)
@@ -98,28 +111,40 @@ const NewDeck = () => {
       const token = localStorage.getItem('authToken');
 
       const handleSubmit = async () => {
-        //e.preventDefault();
         /*
-        const config = {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-          };
-        */
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('format', format);
+        formData.append('colors', JSON.stringify(colors));
 
-        const deckRegister = {
-            name,
-            format,
-            image,
-            colors
+        if (selectedImage) {
+          const file = await fetch(selectedImage)
+            .then((res) => res.blob())
+            .then((blob) => new File([blob], 'deck_image.png', { type: 'image/png' }));
+          formData.append('image', file);
         }
-
+        */
+        const deckRegister = {
+          name,
+          format,
+          image,
+          colors
+      }
         try{
-            const response = await axios.post('http://localhost:8080/f_user/addDeckTest', deckRegister); 
+          console.log(image)
+            const response = await axios.post('http://localhost:8080/f_user/addDeckTest', deckRegister
+              /* formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+             */ 
+            ); 
             const responseData = response.data
             navigate(`/deckbuilding`, { state: { deckID: responseData }}) 
+            
         }catch (e) {
-            alert("Erreur 404")
+            console.log(e)
         }     
     }
 
@@ -194,13 +219,13 @@ const NewDeck = () => {
               </div>
               <div className='name-container'>
                   <InputName onChange={(e) => setSelectedName(e.target.value)} 
-                  onClick={() => validName()} disabled={selectedName.length < 8 || selectedName.length > 15}/>
+                  onClick={() => validName()} disabled={selectedName.length < 8 || selectedName.length > 25}/>
               </div>
-                  <ButtonValid disabled={selectedName.length < 8 || selectedName.length > 15} 
+                  <ButtonValid disabled={selectedName.length < 8 || selectedName.length > 25} 
                   text={"Valider"} onClick={() => validName()}/>
               
 
-          </div>
+          </div> 
           )} 
         {name !== "" && image === "" && (
           <div className="image-group">
@@ -210,10 +235,17 @@ const NewDeck = () => {
                     <Pipeline style={{backgroundColor: '#D3D3D3', color: '#000000'}} text={"Nom"}/>
                     <Pipeline style={{backgroundColor: '#5D3B8C', color: '#ffffff' }} text={"Image"}/>
                 </div>
+                <input
+                    type="file"
+                    accept="image/*" 
+                    onChange={(e) => selectImage(e)}
+                  />
+                {selectedImage && <img src={selectedImage} alt="deck-img" style={{ width: '200px', marginTop: '20px' }} />}
                 <div className='buttons-container'>
                   <ButtonPass onClick={() => passImage()} text={"Passer"}/>             
                   <ButtonValid disabled={selectedImage === ""} text={"Valider"} onClick={() => validImage()}/>
                 </div>
+
           </div>
           )}
       

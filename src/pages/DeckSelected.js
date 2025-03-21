@@ -69,7 +69,7 @@ const DeckSelected = () => {
                         card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
                                         card.colors, card.type, card.rarity, card.edition, card.decks
                     ) ) 
-                    setCards(listCards)
+                    setCards(listCards) 
     
                     const uniqueCardsMap = new Map();
 
