@@ -1,3 +1,4 @@
+import BackgroundMTG from "../assets/background_zombie.jpg"
 import BanniereMTG from "../assets/banniere.jpg"
 import React from 'react';
 import Section from '../components/section';
@@ -5,8 +6,10 @@ import "./css/SignPage.css"
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import validator from 'validator';
+import ButtonValid from '../components/buttonValid';
 
-const SignPage = function () {
+
+const SignPage = function () { 
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -14,10 +17,12 @@ const SignPage = function () {
     const navigate = useNavigate();
     const [existingCount, setExistingCount] = React.useState(true);
 
+    // Passer du form de connexion au form d'inscription
     const switchForm = () => {
         setExistingCount(prevState => !prevState);
     }
 
+    // Génère une erreur si les directives ne sont pas respectées
     const validInput = () => {
         const newErrors = [];
 
@@ -100,15 +105,16 @@ const SignPage = function () {
         
 
     }
-
+ 
     
     return (
-    <Section>
-    <img src={BanniereMTG} className="d-block w-100" alt="Image 1" />
+    <div className="div-container">
+    <img src={BackgroundMTG} className="d-block w-100" alt="Image 1" />
     {existingCount && (
-        <div className="login-container">
-        <form className="login-form" onSubmit={logIn}> 
-            <h2 className="p-log">Connexion</h2>
+        <div className="login-container" style={{width : `40%`}}>
+        <h2 className="title-log">Connexion</h2>
+        <form className="login-form" onSubmit={logIn} style={{width : `100%`}}> 
+            
             <div className="input-group">
                 <label >E-mail :</label>
                 <input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} required/>
@@ -118,14 +124,15 @@ const SignPage = function () {
                 <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)}required/>
             </div>
             <div className="link-group">
-                <button type="submit">Se connecter</button>
+                <button className="valid-form" type="submit">Se connecter</button>
+                <button className="nav-sign" onClick={()=>switchForm()}>S'inscrire</button>
             </div>
         </form>
-        <button className="nav-sign" onClick={()=>switchForm()}>S'inscrire</button>
+        
         </div>
     )}
     {!existingCount && (
-        <div className="login-container">
+        <div className="login-container" >
         <form className="login-form" onSubmit={signUp}> 
             <h2 className="p-sign">Inscription</h2>
             <div className="input-group">
@@ -141,13 +148,13 @@ const SignPage = function () {
                 <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} required/>
             </div>
             <div className="button-group">
-                <button type="submit">S'inscrire</button>
+                <button type="submit">Inscription</button>
             </div>
         </form>
-        <button className="nav-sign" onClick={()=>switchForm()}>Se connecter</button>
+        <button className="nav-sign" onClick={()=>switchForm()}>Connexion</button>
         </div>
         )}
-    </Section>
+    </div>
     )
 }
 

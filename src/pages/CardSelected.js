@@ -14,6 +14,7 @@ import Card from '../model/Card';
 import { FaHeart, FaRegHeart  } from 'react-icons/fa';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
+ 
    
 
 const CardSelected = () => {
@@ -200,7 +201,7 @@ const CardSelected = () => {
                     return (<FaHeart size="3em" color="red"/>)
                 }
             }
-
+ 
 
         return (
             <Section className="section">
@@ -235,9 +236,9 @@ const CardSelected = () => {
                         </div>
                     </div>  
                 <div className='button-navig'>
-                    <IconButton onClick={() => prevCard()} style={{ width: '100px', height: '100px' }} 
+                    <IconButton className= "directionButton" onClick={() => prevCard()} style={{ width: '100px', height: '100px' }} 
                      icon=<IoIosArrowBack size="3em" /> />
-                    <IconButton onClick={() => nextCard()} style={{ width: '100px', height: '100px' }}
+                    <IconButton className= "directionButton" onClick={() => nextCard()} style={{ width: '100px', height: '100px' }}
                      icon=<IoIosArrowForward size="3em" /> />
                  </div>
                 <div className="likeButton-container">

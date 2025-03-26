@@ -14,7 +14,7 @@ const ButtonValid = function (props) {
         </div>
 
     )
-}
+} 
 
 
 export default ButtonValid

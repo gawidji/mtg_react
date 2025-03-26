@@ -173,7 +173,7 @@ const DeckSelected = () => {
             console.log(deckLikedId)
            
         }
-        catch (error) {
+        catch (error) { 
             console.log(error);
             }
          }
@@ -270,24 +270,38 @@ const DeckSelected = () => {
 
         return (
             <Section className="section">
-
+            <img src={deck.image} className="deck-background" alt="Image 1" />
                     <div className="card" style={{width : `50%`}}>
-                        <img className="deck-img" src={deck.image} style={{width : `50%`}} alt="Deck mtg"/>
-                        <div className="card-body" >
-                            <h2 className='card-name'> {deck.name} </h2>
-                            <h4 className='card-value'> Prix du deck : {deck.value} €</h4> 
-                            <h4 className='card-manaCost'> Cout en mana moyen : {deck.manaCost}</h4> 
-                            <h6 className='format'> Format : </h6> 
-                            <li className='card-format' style={{ backgroundColor: 'green' }}>{deck.format}</li>                            
-                            <h6 className='color'> Couleurs : </h6> 
-                            {color && color.length > 0 && (
-                                <div className='mappingColor'>
-                                  {color.map((color)  => (
-                                <img src={getColor(color)} className="color-img-select" alt={color}/>                                
-                             ))}
+                        <h2 className='deck-name'>{deck.name}</h2>
+
+                        <div className="deck-content">
+                            <img className="deck-img" src={deck.image} style={{width : `50%`}} alt="Deck mtg"/>
+
+                            <div className="card-body" >
+                                <div className='line'>
+                                    <h2 className='card-creator'> Créateur : {deck.deckBuilderName}</h2>
+                                </div>
+                                <div className='line'>
+                                    <h4 className='card-value'> Prix du deck : {deck.value} €</h4> 
+                                </div>
+                                <div className='line'>
+                                    <h4 className='card-manaCost'> Cout en mana moyen : {deck.manaCost}</h4> 
+                                </div>
+                                <div className='line'>
+                                    <h4 className='format'> Format : </h4>
+                                    <li className='card-format' style={{ backgroundColor: 'green' }}>{deck.format}</li>
+                                </div>   
+                                <h6 className='color'> Couleurs : </h6> 
+                                {color && color.length > 0 && (
+                                    <div className='mappingColor'>
+                                    {color.map((color)  => (
+                                    <img src={getColor(color)} className="color-img-select" alt={color}/>                                
+                                    ))}
+                                
+                                    </div>
+                                )}
                             </div>
-                            )}
-                        </div>
+                        </div>             
                     </div>   
                 <div className='button-navig'> 
                     <IconButton onClick={() => prevDeck()} style={{ width: '100px', height: '100px' }} 

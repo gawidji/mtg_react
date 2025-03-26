@@ -1,8 +1,12 @@
 .nav {
     display: flex;
     flex-direction: row;
-    gap: 25px;
-    margin-right: 25px;
+    margin-right: 50px;
+}
+
+.arrow-card, .arrow-deck {
+    position: absolute;
+    padding: 5px;
 }
 
 p {color: white;}

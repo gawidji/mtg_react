@@ -226,7 +226,7 @@ const NewDeck = () => {
               
 
           </div> 
-          )} 
+          )}  
         {name !== "" && image === "" && (
           <div className="image-group">
                 <div className='pipeline-container'>
@@ -236,15 +236,18 @@ const NewDeck = () => {
                     <Pipeline style={{backgroundColor: '#5D3B8C', color: '#ffffff' }} text={"Image"}/>
                 </div>
                 <input
+                    className='input-image'
                     type="file"
                     accept="image/*" 
                     onChange={(e) => selectImage(e)}
                   />
-                {selectedImage && <img src={selectedImage} alt="deck-img" style={{ width: '200px', marginTop: '20px' }} />}
-                <div className='buttons-container'>
-                  <ButtonPass onClick={() => passImage()} text={"Passer"}/>             
-                  <ButtonValid disabled={selectedImage === ""} text={"Valider"} onClick={() => validImage()}/>
-                </div>
+
+                  {selectedImage && <img className='deck-img' src={selectedImage} alt="deck-img" />}
+
+                  <div className='buttons-container'>
+                    <ButtonPass onClick={() => passImage()} text={"Passer"}/>
+                    <ButtonValid disabled={selectedImage === ""} text={"Valider"} onClick={() => validImage()}/>
+                  </div>
 
           </div>
           )}

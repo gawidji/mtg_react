@@ -1,4 +1,10 @@
 .pencil-icon {
     font-size: 24px;
     margin-left: 5px;
+    transition: transform 0.2s ease-in-out;
+} 
+
+.pencil-icon:hover {
+    transform: scale(0.9); 
 }
+

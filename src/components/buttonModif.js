@@ -5,6 +5,6 @@ const ButtonModif = function (props) {
     return (
             <FaPencilAlt className="pencil-icon" onClick={props.onClick} />
     )
-}
+} 
 
 export default ButtonModif

@@ -3,7 +3,6 @@ import React from 'react';
 import Section from '../components/section';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './css/LogPage.css' 
 import axios from "axios";
 import CheckboxColor from '../components/checkboxColor'
 import CheckboxFormat from '../components/checkboxFormat'

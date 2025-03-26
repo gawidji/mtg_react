@@ -1,5 +1,9 @@
 
-
+.logo {
+    position: absolute;
+    margin-top: -34%;
+    margin-left: 41%;
+}
 
 /* Top Cards */
 
@@ -7,6 +11,7 @@
     color : white;
     background-color:  #5D3B8C;
     margin-top: 5%;
+    margin-bottom: 3%;
     width: 30%;
     border-radius: 30px;
     padding: 0.5%;

@@ -52,7 +52,7 @@ const AccountPage = () => {
         getDeckBuilder();
         }, []);
 
-        
+        // Afficher les decks de l'user
             
             const [decks, setDecks] = React.useState( [] )
             const [detailsDeck, setDetailsDeck] = React.useState(null)
@@ -111,7 +111,8 @@ const AccountPage = () => {
              
                 // Afficher les cartes likées
 
-                    const [cardsLiked, setCardsLiked] = React.useState( [] )
+                    const [cardsLiked, setCardsLiked] = React.useState([])
+                    const [cardsLikedID, setCardsLikedID] = React.useState([])
                     const [detailsCardLiked, setDetailsCardLiked] = React.useState(null)
 
 
@@ -130,7 +131,7 @@ const AccountPage = () => {
                                 card => new Card (card.id, card.name, card.text, card.image, card.manaCost, card.value, card.formats,
                                                 card.colors, card.type, card.rarity, card.edition, card.decks 
                         ) ) 
-                
+                        setCardsLikedID(response.map(card => card.id))
                         setCardsLiked(response)
                                
             
@@ -154,6 +155,44 @@ const AccountPage = () => {
                     
                     }
 
+                    const hearthIconCard = (id) => {
+                        if(!cardsLikedID.some(cardID => cardID === (id))) {
+                            return (<FaRegHeart size="2em" color="black"/>)
+                        }
+                        else {
+                            return (<FaHeart size="2em" color="red"/>)
+                        }
+                    }
+            
+                    const mouseEnterCard = (id) => {
+                        setCardsLikedID(prevState => prevState.filter(cardID => cardID !== id));
+                    }
+            
+                    const mouseLeaveCard = (id) => {
+                        setCardsLikedID(prevState => [...prevState, id]);
+                    }
+                    
+            
+                    // Méthode disliker une carte
+                
+                    const dislikeCard = async (id) => {
+                        try {
+            
+                            const config = {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
+                                };
+            
+                           await axios.delete(`http://localhost:8080/f_user/dislikeCard?cardId=${id}`, config);          
+                           
+                           getCardsLiked()
+                            }   
+                        catch (error) {
+                            console.log(error);
+                        }
+                    };
+
                     const chooseCard = (id) => {
                         navigate(`/cards/${id}`)
                              };
@@ -165,32 +204,35 @@ const AccountPage = () => {
         // Afficher les decks likés
 
         const [decksLiked, setDecksLiked] = React.useState( [] )
+        const [decksLikedId, setDecksLikedId] = React.useState( [] )
         const [detailsDeckLiked, setDetailsDeckLiked] = React.useState(null)
         
-        
-        const getDecksLiked = async () => {
-            try {
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                    };
 
-                const request = await axios.get(`http://localhost:8080/f_user/getDeckLiked`, config);
-                
-                const response = request.data.map(
-                    deck => new Deck (deck.id, deck.name, deck.dateCreation, deck.image, deck.format,
-                        deck.colors, deck.manaCost, deck.value, deck.isPublic, deck.deckBuilder,
-                        deck.deckBuilderName, deck.likeNumber, deck.cards, deck.commander
-            ) )
-    
-            setDecksLiked(response)                   
+            const getDecksLiked = async () => {
+                try {
+                    const config = {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        };
 
-            }   
-            catch (error) {
-                console.log(error);
+                    const request = await axios.get(`http://localhost:8080/f_user/getDeckLiked`, config);
+                    
+                    const response = request.data.map(
+                        deck => new Deck (deck.id, deck.name, deck.dateCreation, deck.image, deck.format,
+                            deck.colors, deck.manaCost, deck.value, deck.isPublic, deck.deckBuilder,
+                            deck.deckBuilderName, deck.likeNumber, deck.cards, deck.commander
+                ) )
+                // DeckLickedId est utilisé pour faire réagir l'icone coeur        
+                setDecksLikedId(response.map(deck => deck.id)) 
+                setDecksLiked(response) 
+
+                }   
+                catch (error) {
+                    console.log(error);
+                }
             }
-        }
+             
 
         const [arrowSens3, setArrowSens3] = React.useState(<SlArrowDown/>)
         const [arrowUp3, setArrowUp3] = React.useState(false)
@@ -206,9 +248,26 @@ const AccountPage = () => {
         
         }
 
-        // Méthode disliker un deck
+        const hearthIconDeck = (id) => {
+            if(!decksLikedId.some(deckId => deckId === (id))) {
+                return (<FaRegHeart size="2em" color="black"/>)
+            }
+            else {
+                return (<FaHeart size="2em" color="red"/>)
+            }
+        }
+
+        const mouseEnterDeck = (id) => {
+            setDecksLikedId(prevState => prevState.filter(deckId => deckId !== id));
+        }
+
+        const mouseLeaveDeck = (id) => {
+            setDecksLikedId(prevState => [...prevState, id]);
+        }
         
 
+        // Méthode disliker un deck
+    
         const dislikeDeck = async (id) => {
             try {
 
@@ -220,11 +279,14 @@ const AccountPage = () => {
 
                await axios.delete(`http://localhost:8080/f_user/dislikeDeck?deckId=${id}`, config);          
                
+               getDecksLiked()
                 }   
             catch (error) {
                 console.log(error);
             }
         };
+
+
 
 
 
@@ -283,7 +345,7 @@ const AccountPage = () => {
                                                 <h5 className="hv-title">{detailsDeck.name}</h5>
                                                 <hr/>
                                                 <h6 className="hv-type">{detailsDeck.format}</h6>
-                                            </div>
+                                            </div> 
                                         </div>
                                     </div>
                                     )}
@@ -298,13 +360,27 @@ const AccountPage = () => {
 
                 < OpenButton text="Mes cartes likées" onClick={DisplayCardsLiked} icon={arrowSens2} width="100%"/>
                         {arrowUp2 === true &&
-                        <div className='card-section'>
+                        <div className='card-liked-section'>
 
                         {cardsLiked.map(card => ( 
                             <div className="card-details" key={card.id}>
                                 <img className="card-img" src={card.image} alt="Card-image" onClick={() => chooseCard(card.id)}
                                 onMouseEnter={() => hoveredCardLiked(card.id, card.name, card.type, card.text) } onMouseOut={() => hoveredCardLiked() } />
                                 <strong className="card-name"> {card.name} </strong>
+                                <IconButton 
+                                    onClick={()=> dislikeCard(card.id)} 
+                                    onMouseEnter={() => mouseEnterCard(card.id)}
+                                    onMouseLeave={() => mouseLeaveCard(card.id)}
+                                    style={{ 
+                                        background: 'none', 
+                                        boxShadow: 'none', 
+                                        padding: 0, 
+                                        border: 'none',
+                                        
+                                    }} 
+                                
+                                    icon={hearthIconCard(card.id)} 
+                                />
         
         
                             {detailsCardLiked && detailsCardLiked.id === card.id && (
@@ -337,10 +413,21 @@ const AccountPage = () => {
                         
                         <strong className="deck-name"> {deck.name} </strong>
                         <strong className="deck-db"> by {deck.deckBuilderName} </strong>
-                        <FaHeart size="2em" color="red" onClick={()=>dislikeDeck(deck.id)}/>
+                        <IconButton 
+                        onClick={()=> dislikeDeck(deck.id)} 
+                        onMouseEnter={() => mouseEnterDeck(deck.id)}
+                        onMouseLeave={() => mouseLeaveDeck(deck.id)}
+                        style={{ 
+                            background: 'none', 
+                            boxShadow: 'none', 
+                            padding: 0, 
+                            border: 'none',
+                            
+                        }} 
+                    
+                        icon={hearthIconDeck(deck.id)} 
+                        />
                         
-
-
                         {detailsDeckLiked && detailsDeckLiked.id === deck.id && (
                                 <div className="container-mt-5" >
                                     <div className="hv-card" style={{maxWidth: '18rem', border : '2px solid black',
@@ -351,7 +438,7 @@ const AccountPage = () => {
                                             <h6 className="hv-type">{detailsDeckLiked.format}</h6>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
                                 )}
                     </div>
                

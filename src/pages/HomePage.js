@@ -4,6 +4,7 @@ import { useParams,  useNavigate} from 'react-router-dom';
 import axios from "axios";
 import Section from "../components/section" 
 import BanniereMTG from "../assets/banniere.jpg"
+import LogoMTG from "../assets/LogoMTG.png"
 import CarouselMTG2 from "../assets/mtgcaroussel2.jpg"
 import CarouselMTG3 from "../assets/mtgcaroussel3.jpg"
 import BackgroundTopCards from "../assets/mtg_wallpaper.jpg"
@@ -81,6 +82,8 @@ const chooseDeck = (id) => {
 
     return (
       <div className="body">
+      <img src={BanniereMTG} className="d-block w-100" alt="Image 1" />
+      <img src={LogoMTG} className="logo" alt="Image 2" />
       
         <h1 className="title-cards">Top Cartes</h1>  
         <div className="top-cards" style={{

@@ -216,7 +216,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 
                 <div className='mapping-mana'>
                         {colors.map((color)  => (
-                              <button className="mana-btn" onClick={() => addLand(color)}>
+                              <button className="mana-btn" onClick={() => addLand(color)}> 
                               <img src={getImgColor(color)} className="mana-img-select" alt={color}/></button>                             
                            ))}
                 </div>
@@ -227,7 +227,8 @@ import { TiDeleteOutline } from "react-icons/ti";
                                   {deckCards.map((deckCard)  => (
                                 <div className='deck-container'>
                                     <p className='deck-card-name' key={deckCard.id}>{deckCard.name}</p>   
-                                    <DeleteButton className= "deleteButton"  onClick={() => deleteCard(deckCard.id)} icon={<TiDeleteOutline/>}/>
+                                    <DeleteButton className= "deleteButton"  onClick={() => deleteCard(deckCard.id)} 
+                                    icon={<TiDeleteOutline/>}/>
                                 </div>     
                              ))}
                          </div>

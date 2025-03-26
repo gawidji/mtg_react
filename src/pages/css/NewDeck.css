@@ -35,11 +35,28 @@
 
     }
 
+    .img-deck-container {
+      border-radius: 50%;
+      width: 25%;
+      height: 25%;
+      border: 5px solid black;
+
+    }
+
     .buttons-container {
       display: flex;
       flex-direction: row;
       justify-content: center;
+      gap: 20px;
 
+    } 
+
+    .input-image {
+      width: 40%;
+    }
+
+    .deck-img {
+      border-radius: 50%;
     }
  
 }

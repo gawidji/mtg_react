@@ -1,14 +1,42 @@
+.deck-background {
+    opacity: 0.3;
+    width: 100%;
+    position: absolute;
+    margin-top: -5%;
+}
+
+
 .card {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-top: 5%;
-    margin-left: 30%;
+    margin-left: 25%;
+    overflow: hidden; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #000000;
+}
+
+.deck-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.deck-name {
+    background-color: #5D3B8C;
+    color: white;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    text-align: center;
 }
 
 /* Ajouter des marges pour l'image dans la carte */
 .deck-img {
     position: relative;
-    margin: 20px; 
+    margin: 20px;
+    max-width: 40%;
+
 }
 
 /* Style du numéro de la carte */
@@ -27,8 +55,9 @@
     color: black;
 }
 
-.card-name {
-    
+.line {
+    border-bottom: 1px solid black;
+    padding: 1%;
 }
 
 /* Styles des formats et de la rareté */
@@ -78,9 +107,9 @@
 .button-navig {
     display: flex;
     justify-content: space-between;
-    margin: 5px;
     position: relative;
-    margin-top: -18%;
+    margin-top: -15%;
+    padding: 5px;
 }
 
 /* Style des boutons lors du survol */
