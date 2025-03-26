@@ -119,7 +119,7 @@ const DeckSelected = () => {
               };
         
 
-        // Affichage d'image correspondant aux couleurs de la carte
+        // Affichage d'images correspondant aux couleurs de la carte
         const getColor = (value ) => {
             if(value === "BLANC") {
                 return white
